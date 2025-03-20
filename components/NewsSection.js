@@ -18,7 +18,11 @@ export default function NewsSection() {
   const [feeds, setFeeds] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedFeeds, setSelectedFeeds] = useState([]); // Empty array: all feeds disabled by default
+  // Randomly select one feed as default
+  const [selectedFeeds, setSelectedFeeds] = useState(() => {
+    const randomIndex = Math.floor(Math.random() * RSS_FEEDS.length);
+    return [RSS_FEEDS[randomIndex].label];
+  });
 
   useEffect(() => {
     const fetchRSS = async () => {
@@ -130,7 +134,7 @@ export default function NewsSection() {
                                 {post.title}
                               </Heading>
                               <Text fontSize="sm" color="gray.300" noOfLines={3} mb={4}>
-                                {post.description}
+                                {post.description.replace("(Feed generated with FetchRSS)","")}
                               </Text>
                               <Flex justify="space-between" align="center">
                                 <Text fontSize="xs" color="gray.400">

@@ -59,7 +59,7 @@ export default function Discover() {
     <Fade in>
     <Box
       w="full"
-      bgImage={"/discover.avif"}
+      bgImage={"discover/gamebg.webp"}
       minH="100vh"
       bgSize="cover"
       bgPosition="center"
@@ -72,10 +72,12 @@ export default function Discover() {
       position="relative"
       borderTop="2px solid white"    // Adds a top border
       borderBottom="2px solid white" // Adds a bottom border
+      pb={10}
+
     >
   {/* Overlay Image */}
         <Image
-          src="discover/overlay.avif"
+          src="discover/overlay.webp"
           alt="Game Preview"
           position="absolute"
           draggable={false}
@@ -91,7 +93,19 @@ export default function Discover() {
         />
 
         <VStack spacing={12} maxW="1400px" mx="auto">
-
+        <Heading
+            mt={100}
+            as="h2"
+            size={{ base: 'lg', md: 'xl' }}
+            color="white"
+            textShadow="2px 2px 8px rgba(0, 0, 0, 0.8)"
+            textAlign="center"
+            px={6}
+            py={4}
+            borderRadius="lg"
+          >
+            {t('discover.title')}
+          </Heading>
           <SimpleGrid columns={{ base: 1, sm: 2, lg: 4 }} spacing={{ base: 6, md: 8 }}>
             {games.map((game, index) => (
               <MotionBox
@@ -113,8 +127,6 @@ export default function Discover() {
                 transition="all 0.3s ease"
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
-                mb={"2"}
-
               >
                 {/* Hover Overlay */}
                 <Box
