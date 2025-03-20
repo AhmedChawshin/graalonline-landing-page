@@ -17,6 +17,7 @@ const resources = {
         description: 'Discover a Universe of Multiplayer Adventures!',
         discoverButton: 'Discover Graal Online',
         scrollDown: 'Scroll Down to Explore', 
+        playersOnline: '{{count}} Graalians Online'
       },
       discover: {
         title: 'Discover Graal Online',
@@ -79,6 +80,7 @@ const resources = {
         description: '¡Descubre un Universo de Aventuras Multijugador!',
         discoverButton: 'Descubre Graal Online',
         scrollDown: 'Desplázate hacia abajo para explorar',
+        playersOnline: '{{count}} Jugadores en Línea'
       },
       discover: {
         title: 'Descubre Graal Online',
@@ -140,6 +142,7 @@ const resources = {
         description: 'Découvrez un Univers d’Aventures Multijoueurs !',
         discoverButton: 'Découvrir Graal Online',
         scrollDown: 'Faites défiler vers le bas pour explorer',
+        playersOnline: '{{count}} Joueurs en Ligne'
       },
       discover: {
         title: 'Découvrez Graal Online',
