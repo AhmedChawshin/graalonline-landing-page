@@ -8,6 +8,10 @@ import i18n from '../i18n';
 import Head from 'next/head';
 
 const theme = extendTheme({
+  config: {
+    initialColorMode: 'dark', 
+    useSystemColorMode: false, 
+  },
   colors: {
     brand: {
       500: '#667eea',

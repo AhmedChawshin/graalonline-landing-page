@@ -67,7 +67,7 @@ export default function Discover() {
         justifyContent="center"
         px={{ base: 4, md: 6 }}
         backdropFilter="blur(20px)"
-        bg="rgba(0, 0, 0, 0.6)" // Slightly darker overlay for better contrast
+        bg="rgba(0, 0, 0, 0.6)" 
         position="relative"
       >
         {/* Overlay Image */}
