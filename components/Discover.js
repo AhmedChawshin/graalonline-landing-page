@@ -10,14 +10,14 @@ export default function Discover() {
 
   const games = [
     {
-      title: t('discover.games.graalZone.title'),
-      description: t('discover.games.graalZone.description'),
-      gif: '/discover/zone.gif',
+      title: t('discover.games.graalEra.title'),
+      description: t('discover.games.graalEra.description'),
+      gif: '/discover/era.gif',
       links: {
-        steam: 'https://store.steampowered.com/app/2698140/Graalonline_Worlds/',
+        steam: 'https://store.steampowered.com/app/2358050/GraalOnline_Era/',
         web: 'https://era.graalonline.com/play',
-        ios: 'https://apps.apple.com/app/graalonline-zone/id284976684',
-        android: 'https://play.google.com/store/apps/details?id=com.quattroplay.GraalZone',
+        ios: 'https://apps.apple.com/app/graalonline-era/id406674031',
+        android: 'https://play.google.com/store/apps/details?id=com.quattroplay.GraalEra',
       },
     },
     {
@@ -43,16 +43,16 @@ export default function Discover() {
       },
     },
     {
-      title: t('discover.games.graalEra.title'),
-      description: t('discover.games.graalEra.description'),
-      gif: '/discover/era.gif',
+      title: t('discover.games.graalZone.title'),
+      description: t('discover.games.graalZone.description'),
+      gif: '/discover/zone.gif',
       links: {
-        steam: 'https://store.steampowered.com/app/2358050/GraalOnline_Era/',
+        steam: 'https://store.steampowered.com/app/2698140/Graalonline_Worlds/',
         web: 'https://era.graalonline.com/play',
-        ios: 'https://apps.apple.com/app/graalonline-era/id406674031',
-        android: 'https://play.google.com/store/apps/details?id=com.quattroplay.GraalEra',
-      },
-    },
+        ios: 'https://apps.apple.com/app/graalonline-zone/id284976684',
+        android: 'https://play.google.com/store/apps/details?id=com.quattroplay.GraalZone',
+      }
+    }
   ];
 
   return (

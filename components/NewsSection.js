@@ -9,8 +9,9 @@ const MotionBox = motion(Box);
 const RSS_FEEDS = [
   { url: 'https://fetchrss.com/rss/67dc10f911087c9f2e07117267dc114fafd4cc2f7b0eb142.rss', label: 'Era' },
   { url: 'https://fetchrss.com/rss/67dc10f911087c9f2e07117267dc10e01c3dd50d360f3a43.rss', label: 'Classic' },
-  { url: 'https://fetchrss.com/rss/67dc10f911087c9f2e07117267dc11766f3966b055048784.rss', label: 'Zone' },
   { url: 'https://fetchrss.com/rss/67dc10f911087c9f2e07117267dc118abf187c22500e1c42.rss', label: "Ol'West" },
+  { url: 'https://fetchrss.com/rss/67dc10f911087c9f2e07117267dc11766f3966b055048784.rss', label: 'Zone' }
+
 ];
 
 export default function NewsSection() {
