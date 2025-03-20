@@ -91,18 +91,7 @@ export default function Discover() {
         />
 
         <VStack spacing={12} maxW="1400px" mx="auto">
-          <Heading
-            as="h2"
-            size={{ base: 'lg', md: 'xl' }}
-            color="white"
-            textShadow="2px 2px 8px rgba(0, 0, 0, 0.8)"
-            textAlign="center"
-            px={6}
-            py={4}
-            borderRadius="lg"
-          >
-            {t('discover.title')}
-          </Heading>
+
           <SimpleGrid columns={{ base: 1, sm: 2, lg: 4 }} spacing={{ base: 6, md: 8 }}>
             {games.map((game, index) => (
               <MotionBox
