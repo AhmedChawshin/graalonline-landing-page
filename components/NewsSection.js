@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, Heading, Text, VStack, Fade, Link, Flex, Button, Image, SimpleGrid } from '@chakra-ui/react';
+import { Box, Heading, Text, VStack, Fade, Link, Flex, Button, Image, SimpleGrid, Checkbox, CheckboxGroup, Stack } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
@@ -18,6 +18,7 @@ export default function NewsSection() {
   const [feeds, setFeeds] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedFeeds, setSelectedFeeds] = useState([]); // Empty array: all feeds disabled by default
 
   useEffect(() => {
     const fetchRSS = async () => {
@@ -38,10 +39,10 @@ export default function NewsSection() {
             description: item.description.replace(/<[^>]+>/g, '').replace(/\\n/g, ' ').trim(),
             link: item.link,
             date: new Date(item.pubDate).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-                year: "numeric",
-              }),
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+            }),
             thumbnail: item.thumbnail || item.enclosure?.link || '/potluck.png',
           }));
 
@@ -58,7 +59,12 @@ export default function NewsSection() {
     };
 
     fetchRSS();
-  }, [t]); // Re-run if language changes
+  }, [t]);
+
+  // Handle checkbox changes
+  const handleFeedSelection = (values) => {
+    setSelectedFeeds(values);
+  };
 
   return (
     <Fade in>
@@ -68,76 +74,93 @@ export default function NewsSection() {
             {t('news.title')}
           </Heading>
 
+          {/* Feed Selection Checkboxes */}
+          <CheckboxGroup value={selectedFeeds} onChange={handleFeedSelection}>
+            <Stack direction={{ base: 'column', md: 'row' }} spacing={4} mb={8} justify="center">
+              {RSS_FEEDS.map((feed) => (
+                <Checkbox key={feed.label} value={feed.label} colorScheme="blue">
+                  {t(`${feed.label}`)}
+                </Checkbox>
+              ))}
+            </Stack>
+          </CheckboxGroup>
+
           {loading && <Text>{t('news.loading')}</Text>}
           {error && <Text color="red.300">{error}</Text>}
 
           {!loading && !error && Object.keys(feeds).length > 0 && (
             <VStack spacing={15} w="full">
-              {Object.entries(feeds).map(([label, posts], feedIndex) => (
-                <Box key={label} w="full">
-                  <Heading as="h2" size="lg" mb={6} color="blue.300">
-                    {t(`${label}`)}
-                  </Heading>
-                  <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
-                    {posts.map((post, index) => (
-                      <MotionBox
-                        key={index}
-                        bg="gray.800"
-                        borderRadius="lg"
-                        boxShadow="lg"
-                        overflow="hidden"
-                        transform={`rotate(${feedIndex % 2 === 0 ? index * 2 : -index * 2}deg)`}
-                        _hover={{
-                          transform: `rotate(${feedIndex % 2 === 0 ? index * 2 : -index * 2}deg) scale(1.03)`,
-                          boxShadow: 'xl',
-                          bg: 'gray.700',
-                        }}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.1, duration: 0.5 }}
-                      >
-                        <Link href={post.link} isExternal _hover={{ textDecoration: 'none' }}>
-                          <Image
-                            src={post.thumbnail}
-                            alt={post.title}
-                            h="200px"
-                            w="full"
-                            objectFit="cover"
-                            borderTopRadius="lg"
-                            fallbackSrc="/potluck.png"
-                          />
-                          <Box p={5}>
-                            <Heading as="h3" size="md" mb={3} color="white" noOfLines={2}>
-                              {post.title}
-                            </Heading>
-                            <Text fontSize="sm" color="gray.300" noOfLines={3} mb={4}>
-                              {post.description}
-                            </Text>
-                            <Flex justify="space-between" align="center">
-                              <Text fontSize="xs" color="gray.400">
-                                {post.date}
+              {Object.entries(feeds)
+                .filter(([label]) => selectedFeeds.includes(label)) // Only show selected feeds
+                .map(([label, posts], feedIndex) => (
+                  <Box key={label} w="full">
+                    <Heading as="h2" size="lg" mb={6} color="blue.300">
+                      {t(`${label}`)}
+                    </Heading>
+                    <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
+                      {posts.map((post, index) => (
+                        <MotionBox
+                          key={index}
+                          bg="gray.800"
+                          borderRadius="lg"
+                          boxShadow="lg"
+                          overflow="hidden"
+                          transform={`rotate(${feedIndex % 2 === 0 ? index * 2 : -index * 2}deg)`}
+                          _hover={{
+                            transform: `rotate(${feedIndex % 2 === 0 ? index * 2 : -index * 2}deg) scale(1.03)`,
+                            boxShadow: 'xl',
+                            bg: 'gray.700',
+                          }}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: index * 0.1, duration: 0.5 }}
+                        >
+                          <Link href={post.link} isExternal _hover={{ textDecoration: 'none' }}>
+                            <Image
+                              src={post.thumbnail}
+                              alt={post.title}
+                              h="200px"
+                              w="full"
+                              objectFit="cover"
+                              borderTopRadius="lg"
+                              fallbackSrc="/potluck.png"
+                            />
+                            <Box p={5}>
+                              <Heading as="h3" size="md" mb={3} color="white" noOfLines={2}>
+                                {post.title}
+                              </Heading>
+                              <Text fontSize="sm" color="gray.300" noOfLines={3} mb={4}>
+                                {post.description}
                               </Text>
-                              <Button
-                                size="sm"
-                                colorScheme="blue"
-                                variant="outline"
-                                _hover={{ bg: 'blue.600', color: 'white' }}
-                              >
-                                {t('news.readMore')}
-                              </Button>
-                            </Flex>
-                          </Box>
-                        </Link>
-                      </MotionBox>
-                    ))}
-                  </SimpleGrid>
-                </Box>
-              ))}
+                              <Flex justify="space-between" align="center">
+                                <Text fontSize="xs" color="gray.400">
+                                  {post.date}
+                                </Text>
+                                <Button
+                                  size="sm"
+                                  colorScheme="blue"
+                                  variant="outline"
+                                  _hover={{ bg: 'blue.600', color: 'white' }}
+                                >
+                                  {t('news.readMore')}
+                                </Button>
+                              </Flex>
+                            </Box>
+                          </Link>
+                        </MotionBox>
+                      ))}
+                    </SimpleGrid>
+                  </Box>
+                ))}
             </VStack>
           )}
 
-          {!loading && !error && Object.keys(feeds).length === 0 && (
+          {!loading && !error && selectedFeeds.length > 0 && Object.keys(feeds).filter(label => selectedFeeds.includes(label)).length === 0 && (
             <Text>{t('news.noPosts')}</Text>
+          )}
+
+          {!loading && !error && selectedFeeds.length === 0 && (
+            <Text>{t('news.selectFeed')}</Text> // Prompt user to select a feed
           )}
         </VStack>
       </Box>

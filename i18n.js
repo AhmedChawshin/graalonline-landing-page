@@ -55,6 +55,7 @@ const resources = {
         loading: 'Loading posts...',
         error: 'Failed to load some posts. Please try again later.',
         noPosts: 'No posts available at the moment.',
+        selectFeed: "Please select a feed to view news."
       },
       footer: {
         support: 'Support',
