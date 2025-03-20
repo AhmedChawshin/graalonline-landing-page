@@ -1,12 +1,32 @@
-import { Box, Heading, SimpleGrid, Text, Button, VStack, Fade, Image, HStack, Flex } from '@chakra-ui/react';
-import { motion } from 'framer-motion';
+import { Box, Heading, SimpleGrid, Text, Button, VStack, Fade, Image, HStack, Flex, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, List, ListItem, ListIcon } from '@chakra-ui/react';
+import { motion, useInView } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { useRef, useState } from 'react';
+import { FaSteam, FaApple, FaAndroid, FaGlobe } from 'react-icons/fa'; // Icons for platforms
 
 const MotionBox = motion(Box);
 const MotionImage = motion(Image);
 
+// Animation variants for a cooler effect
+const cardVariants = {
+  hidden: { opacity: 0, y: 50, scale: 0.9 },
+  visible: (index) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 2,
+      ease: [0.6, -0.05, 0.01, 0.99], // Smooth easing with a slight bounce
+      delay: index * 0.15, // Staggered delay for each card
+    },
+  }),
+};
+
 export default function Discover() {
   const { t } = useTranslation();
+  const ref = useRef(null); // Ref for the SimpleGrid to detect when it’s in view
+  const isInView = useInView(ref, { once: true, margin: '-100px' }); // Trigger when 100px before viewport
+  const [selectedGame, setSelectedGame] = useState(null); // State to track which game's modal is open
 
   const games = [
     {
@@ -51,31 +71,37 @@ export default function Discover() {
         web: 'https://era.graalonline.com/play',
         ios: 'https://apps.apple.com/app/graalonline-zone/id284976684',
         android: 'https://play.google.com/store/apps/details?id=com.quattroplay.GraalZone',
-      }
-    }
+      },
+    },
   ];
+
+  const handleOpenModal = (game) => {
+    setSelectedGame(game);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedGame(null);
+  };
 
   return (
     <Fade in>
-    <Box
-      w="full"
-      bgImage={"discover/gamebg.webp"}
-      minH="100vh"
-      bgSize="cover"
-      bgPosition="center"
-      bgRepeat="no-repeat"
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      px={{ base: 4, md: 6 }}
-      backdropFilter="blur(20px)"
-      position="relative"
-      borderTop="2px solid white"    // Adds a top border
-      borderBottom="2px solid white" // Adds a bottom border
-      pb={10}
-
-    >
-  {/* Overlay Image */}
+      <Box
+        w="full"
+        bgImage={'discover/gamebg.webp'}
+        minH="100vh"
+        bgSize="cover"
+        bgPosition="center"
+        bgRepeat="no-repeat"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        px={{ base: 4, md: 6 }}
+        backdropFilter="blur(20px)"
+        position="relative"
+        borderTop="2px solid white"
+        borderBottom="2px solid white"
+        pb={10}
+      >
         <Image
           src="discover/overlay.webp"
           alt="Game Preview"
@@ -84,16 +110,16 @@ export default function Discover() {
           right={0}
           top="50%"
           transform="translateY(-50%)"
-          height="100%" // Makes the image as tall as the Box
-          width="auto"  // Ensures aspect ratio is maintained
+          height="100%"
+          width="auto"
           objectFit="contain"
           zIndex={-1}
           filter="drop-shadow(0 0 15px rgba(0, 0, 0, 0.7))"
-          display={{ base: 'none', lg: 'block' }} // Hide on smaller screens
+          display={{ base: 'none', lg: 'block' }}
         />
 
         <VStack spacing={12} maxW="1400px" mx="auto">
-        <Heading
+          <Heading
             mt={100}
             as="h2"
             size={{ base: 'lg', md: 'xl' }}
@@ -106,10 +132,13 @@ export default function Discover() {
           >
             {t('discover.title')}
           </Heading>
-          <SimpleGrid columns={{ base: 1, sm: 2, lg: 4 }} spacing={{ base: 6, md: 8 }}>
+          <SimpleGrid ref={ref} columns={{ base: 1, sm: 2, lg: 4 }} spacing={{ base: 6, md: 8 }}>
             {games.map((game, index) => (
               <MotionBox
                 key={index}
+                as={Flex}
+                flexDirection="column"
+                justifyContent="space-between"
                 bgGradient="linear(to-b, gray.800, gray.900)"
                 borderRadius="xl"
                 p={{ base: 4, md: 6 }}
@@ -121,14 +150,16 @@ export default function Discover() {
                 overflow="hidden"
                 _hover={{
                   transform: 'scale(1.08)',
-                  boxShadow: '0 0 20px rgba(102, 126, 234, 0.5)', // Glow effect
+                  boxShadow: '0 0 20px rgba(102, 126, 234, 0.5)',
                   borderColor: '#57cbf8',
                 }}
                 transition="all 0.3s ease"
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
+                variants={cardVariants}
+                initial="hidden"
+                animate={isInView ? 'visible' : 'hidden'}
+                custom={index}
+                minH={{ base: '400px', md: '450px' }}
               >
-                {/* Hover Overlay */}
                 <Box
                   position="absolute"
                   top={0}
@@ -141,14 +172,13 @@ export default function Discover() {
                   transition="opacity 0.3s ease"
                   zIndex={0}
                 />
-
                 <MotionImage
                   src={game.gif}
                   alt={game.title}
                   borderRadius="lg"
                   mb={4}
                   draggable={false}
-                  maxH={{ base: '120px', md: '180px' }} // Larger GIFs for better visibility
+                  h={{ base: '120px', md: '180px' }}
                   w="100%"
                   objectFit="cover"
                   whileHover={{ scale: 1.1, rotate: 3 }}
@@ -171,16 +201,17 @@ export default function Discover() {
                   mb={4}
                   textShadow="1px 1px 3px rgba(0, 0, 0, 0.5)"
                   zIndex={1}
+                  textAlign="center"
                   px={2}
+                  overflow="hidden"
+                  WebkitBoxOrient="vertical"
+                  WebkitLineClamp={3}
+                  flexGrow={1}
                 >
                   {game.description}
                 </Text>
                 <VStack spacing={4} zIndex={1}>
-                  {/* Primary CTA: Play Now */}
                   <Button
-                    as="a"
-                    href={game.links.web}
-                    target="_blank"
                     size="md"
                     bg="brand.500"
                     color="white"
@@ -192,10 +223,10 @@ export default function Discover() {
                     transition="all 0.2s"
                     fontWeight="bold"
                     px={6}
+                    onClick={() => handleOpenModal(game)} // Open modal
                   >
-                    {t('discover.playNow', { defaultValue: 'Play Now' })} 
+                    {t('discover.playNow', { defaultValue: 'Play Now' })}
                   </Button>
-                  {/* Platform Buttons */}
                   <HStack spacing={2} justify="center" flexWrap="wrap">
                     <Button
                       as="a"
@@ -242,6 +273,73 @@ export default function Discover() {
             ))}
           </SimpleGrid>
         </VStack>
+
+        {/* Modal for displaying all platform links */}
+        {selectedGame && (
+          <Modal isOpen={!!selectedGame} onClose={handleCloseModal} isCentered>
+            <ModalOverlay />
+            <ModalContent bg="gray.800" color="white" borderRadius="xl" p={4}>
+              <ModalHeader textAlign="center">{selectedGame.title}</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                <List spacing={3}>
+                  <ListItem>
+                    <ListIcon as={FaGlobe} color="brand.500" />
+                    <Button
+                      as="a"
+                      href={selectedGame.links.web}
+                      target="_blank"
+                      variant="link"
+                      color="gray.200"
+                      _hover={{ color: 'brand.500', textDecoration: 'underline' }}
+                    >
+                      {t('discover.platforms.web', { defaultValue: 'Play on Web' })}
+                    </Button>
+                  </ListItem>
+                  <ListItem>
+                    <ListIcon as={FaSteam} color="brand.500" />
+                    <Button
+                      as="a"
+                      href={selectedGame.links.steam}
+                      target="_blank"
+                      variant="link"
+                      color="gray.200"
+                      _hover={{ color: 'brand.500', textDecoration: 'underline' }}
+                    >
+                      {t('discover.platforms.steam', { defaultValue: 'Steam' })}
+                    </Button>
+                  </ListItem>
+                  <ListItem>
+                    <ListIcon as={FaApple} color="brand.500" />
+                    <Button
+                      as="a"
+                      href={selectedGame.links.ios}
+                      target="_blank"
+                      variant="link"
+                      color="gray.200"
+                      _hover={{ color: 'brand.500', textDecoration: 'underline' }}
+                    >
+                      {t('discover.platforms.ios', { defaultValue: 'iOS' })}
+                    </Button>
+                  </ListItem>
+                  <ListItem>
+                    <ListIcon as={FaAndroid} color="brand.500" />
+                    <Button
+                      as="a"
+                      href={selectedGame.links.android}
+                      target="_blank"
+                      variant="link"
+                      color="gray.200"
+                      _hover={{ color: 'brand.500', textDecoration: 'underline' }}
+                    >
+                      {t('discover.platforms.android', { defaultValue: 'Android' })}
+                    </Button>
+                  </ListItem>
+                </List>
+              </ModalBody>
+            </ModalContent>
+          </Modal>
+        )}
       </Box>
     </Fade>
   );

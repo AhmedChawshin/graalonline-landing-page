@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Box, Heading, Text, VStack, Fade, Link, Flex, Button, Image, SimpleGrid, Checkbox, CheckboxGroup, Stack } from '@chakra-ui/react';
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
 const MotionBox = motion(Box);
@@ -10,20 +10,37 @@ const RSS_FEEDS = [
   { url: 'https://fetchrss.com/rss/67dc10f911087c9f2e07117267dc114fafd4cc2f7b0eb142.rss', label: 'Era' },
   { url: 'https://fetchrss.com/rss/67dc10f911087c9f2e07117267dc10e01c3dd50d360f3a43.rss', label: 'Classic' },
   { url: 'https://fetchrss.com/rss/67dc10f911087c9f2e07117267dc118abf187c22500e1c42.rss', label: "Ol'West" },
-  { url: 'https://fetchrss.com/rss/67dc10f911087c9f2e07117267dc11766f3966b055048784.rss', label: 'Zone' }
-
+  { url: 'https://fetchrss.com/rss/67dc10f911087c9f2e07117267dc11766f3966b055048784.rss', label: 'Zone' },
 ];
+
+// Animation variants for a cooler effect
+const cardVariants = {
+  hidden: { opacity: 0, y: 50, scale: 0.9 },
+  visible: (index) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 2,
+      ease: [0.6, -0.05, 0.01, 0.99], // Smooth easing with a slight bounce
+      delay: index * 0.15, // Staggered delay for each card
+    },
+  }),
+};
 
 export default function NewsSection() {
   const { t } = useTranslation();
   const [feeds, setFeeds] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  // Randomly select one feed as default
   const [selectedFeeds, setSelectedFeeds] = useState(() => {
     const randomIndex = Math.floor(Math.random() * RSS_FEEDS.length);
     return [RSS_FEEDS[randomIndex].label];
   });
+
+  // Single ref and useInView for the entire news section
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, margin: '-300px' });
 
   useEffect(() => {
     const fetchRSS = async () => {
@@ -73,7 +90,7 @@ export default function NewsSection() {
 
   return (
     <Fade in>
-      <Box bg="gray.900" color="white" px={6} py={12} minH="100vh">
+      <Box bg="gray.900" color="white" px={6} py={12} minH="100vh" ref={sectionRef}>
         <VStack spacing={12} maxW="1400px" mx="auto">
           <Heading as="h1" size="2xl" textAlign="center">
             {t('news.title')}
@@ -110,15 +127,15 @@ export default function NewsSection() {
                           borderRadius="lg"
                           boxShadow="lg"
                           overflow="hidden"
-                          transform={`rotate(${feedIndex % 2 === 0 ? index * 2 : -index * 2}deg)`}
                           _hover={{
                             transform: `rotate(${feedIndex % 2 === 0 ? index * 2 : -index * 2}deg) scale(1.03)`,
                             boxShadow: 'xl',
                             bg: 'gray.700',
                           }}
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: index * 0.1, duration: 0.5 }}
+                          variants={cardVariants}
+                          initial="hidden"
+                          animate={isInView ? 'visible' : 'hidden'}
+                          custom={index + feedIndex * 3} // Adjust index for multiple feeds
                         >
                           <Link href={post.link} isExternal _hover={{ textDecoration: 'none' }}>
                             <Image
@@ -135,7 +152,7 @@ export default function NewsSection() {
                                 {post.title}
                               </Heading>
                               <Text fontSize="sm" color="gray.300" noOfLines={3} mb={4}>
-                                {post.description.replace("(Feed generated with FetchRSS)","")}
+                                {post.description.replace("(Feed generated with FetchRSS)", "")}
                               </Text>
                               <Flex justify="space-between" align="center">
                                 <Text fontSize="xs" color="gray.400">
@@ -165,7 +182,7 @@ export default function NewsSection() {
           )}
 
           {!loading && !error && selectedFeeds.length === 0 && (
-            <Text>{t('news.selectFeed')}</Text> // Prompt user to select a feed
+            <Text>{t('news.selectFeed')}</Text>
           )}
         </VStack>
       </Box>
