@@ -5,7 +5,6 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { I18nextProvider } from 'react-i18next';
 import i18n from '../i18n';
-import Head from 'next/head';
 
 const theme = extendTheme({
   config: {
@@ -31,7 +30,7 @@ const theme = extendTheme({
 export default function RootLayout({ children }) {
   return (
         <html lang={i18n.language}>      
-        <Head>
+        <head>
         {/* Title & Meta Descriptions */}
         <title>GraalOnline - Modern Fantasy MMORPG</title>
         <meta name="title" content="GraalOnline - Modern Fantasy MMORPG" />
@@ -59,7 +58,7 @@ export default function RootLayout({ children }) {
 
         {/* Poppins Font */}
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
-      </Head>
+      </head>
 
       <body>
         <I18nextProvider i18n={i18n}>
