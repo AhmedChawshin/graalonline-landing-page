@@ -57,20 +57,23 @@ export default function Discover() {
 
   return (
     <Fade in>
-      <Box
-        minH="100vh"
-        bgSize="cover"
-        bgPosition="center"
-        bgRepeat="no-repeat"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        px={{ base: 4, md: 6 }}
-        backdropFilter="blur(20px)"
-        bg="rgba(0, 0, 0, 0.6)" 
-        position="relative"
-      >
-        {/* Overlay Image */}
+    <Box
+      w="full"
+      bgImage={"/discover.avif"}
+      minH="100vh"
+      bgSize="cover"
+      bgPosition="center"
+      bgRepeat="no-repeat"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      px={{ base: 4, md: 6 }}
+      backdropFilter="blur(20px)"
+      position="relative"
+      borderTop="2px solid white"    // Adds a top border
+      borderBottom="2px solid white" // Adds a bottom border
+    >
+  {/* Overlay Image */}
         <Image
           src="discover/overlay.avif"
           alt="Game Preview"
@@ -79,11 +82,12 @@ export default function Discover() {
           right={0}
           top="50%"
           transform="translateY(-50%)"
-          maxW={{ base: '40%', md: '30%', lg: '25%' }} // Adjusted for better fit on smaller screens
+          height="100%" // Makes the image as tall as the Box
+          width="auto"  // Ensures aspect ratio is maintained
           objectFit="contain"
-          zIndex={-1000}
+          zIndex={-1}
           filter="drop-shadow(0 0 15px rgba(0, 0, 0, 0.7))"
-          display={{ base: 'none', lg: 'block' }} // Hide on smaller screens to avoid overlap
+          display={{ base: 'none', lg: 'block' }} // Hide on smaller screens
         />
 
         <VStack spacing={12} maxW="1400px" mx="auto">
@@ -96,7 +100,6 @@ export default function Discover() {
             px={6}
             py={4}
             borderRadius="lg"
-            boxShadow="lg"
           >
             {t('discover.title')}
           </Heading>
@@ -121,6 +124,8 @@ export default function Discover() {
                 transition="all 0.3s ease"
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
+                mb={"2"}
+
               >
                 {/* Hover Overlay */}
                 <Box
