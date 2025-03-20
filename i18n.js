@@ -16,11 +16,12 @@ const resources = {
         title: 'Graal Online',
         description: 'Discover a Universe of Multiplayer Adventures!',
         discoverButton: 'Discover Graal Online',
-        scrollDown: 'Scroll Down to Explore', 
-        playersOnline: '{{count}} Graalians Online'
+        scrollDown: 'Scroll Down to Explore',
+        playersOnline: '{{count}} Graalians Online',
       },
       discover: {
         title: 'Discover Graal Online',
+        playNow: 'Play Now', // Added missing key
         games: {
           graalZone: {
             title: 'Graal Zone',
@@ -50,13 +51,13 @@ const resources = {
         title: 'Graalonline News',
         era: 'Era',
         classic: 'Classic',
+        "ol'west": "Ol'West", // Standardized key
         zone: 'Zone',
-        olwest: "Ol'West",
         readMore: 'Read More',
         loading: 'Loading posts...',
         error: 'Failed to load some posts. Please try again later.',
         noPosts: 'No posts available at the moment.',
-        selectFeed: "Please select a feed to view news."
+        selectFeed: 'Please select a feed to view news.',
       },
       footer: {
         support: 'Support',
@@ -80,10 +81,11 @@ const resources = {
         description: '¡Descubre un Universo de Aventuras Multijugador!',
         discoverButton: 'Descubre Graal Online',
         scrollDown: 'Desplázate hacia abajo para explorar',
-        playersOnline: '{{count}} Jugadores en Línea'
+        playersOnline: '{{count}} Jugadores en Línea',
       },
       discover: {
         title: 'Descubre Graal Online',
+        playNow: 'Jugar Ahora', // Added missing key
         games: {
           graalZone: {
             title: 'Graal Zone',
@@ -112,13 +114,14 @@ const resources = {
       news: {
         title: 'Noticias de Graalonline',
         era: 'Era',
-        classic: 'Clásico',
-        zone: 'Zona',
-        olwest: 'Viejo Oeste',
+        classic: 'Classic',
+        "ol'west": "Ol'West", // Standardized key
+        zone: 'Zone',
         readMore: 'Leer Más',
         loading: 'Cargando publicaciones...',
         error: 'No se pudieron cargar algunas publicaciones. Por favor, intenta de nuevo más tarde.',
         noPosts: 'No hay publicaciones disponibles en este momento.',
+        selectFeed: 'Por favor, selecciona un feed para ver noticias.', // Added missing key
       },
       footer: {
         support: 'Soporte',
@@ -142,10 +145,11 @@ const resources = {
         description: 'Découvrez un Univers d’Aventures Multijoueurs !',
         discoverButton: 'Découvrir Graal Online',
         scrollDown: 'Faites défiler vers le bas pour explorer',
-        playersOnline: '{{count}} Joueurs en Ligne'
+        playersOnline: '{{count}} Joueurs en Ligne',
       },
       discover: {
         title: 'Découvrez Graal Online',
+        playNow: 'Jouer Maintenant', // Added missing key
         games: {
           graalZone: {
             title: 'Graal Zone',
@@ -173,14 +177,15 @@ const resources = {
       },
       news: {
         title: 'Actualités Graalonline',
-        era: 'Ère',
-        classic: 'Classique',
+        era: 'Era',
+        classic: 'Classic',
+        "ol'west": "Ol'West", // Standardized key
         zone: 'Zone',
-        olwest: 'Vieux Ouest',
         readMore: 'Lire Plus',
         loading: 'Chargement des publications...',
         error: 'Échec du chargement de certaines publications. Veuillez réessayer plus tard.',
         noPosts: 'Aucune publication disponible pour le moment.',
+        selectFeed: 'Veuillez sélectionner un flux pour voir les actualités.', // Added missing key
       },
       footer: {
         support: 'Support',

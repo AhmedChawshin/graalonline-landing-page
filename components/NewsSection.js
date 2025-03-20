@@ -1,3 +1,4 @@
+"use client"
 import { useEffect, useState, useRef } from 'react';
 import { Box, Heading, Text, VStack, Fade, Link, Flex, Button, Image, SimpleGrid, Checkbox, CheckboxGroup, Stack } from '@chakra-ui/react';
 import { motion, useInView } from 'framer-motion';
@@ -38,7 +39,6 @@ export default function NewsSection() {
     return [RSS_FEEDS[randomIndex].label];
   });
 
-  // Single ref and useInView for the entire news section
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-300px' });
 
@@ -83,7 +83,6 @@ export default function NewsSection() {
     fetchRSS();
   }, [t]);
 
-  // Handle checkbox changes
   const handleFeedSelection = (values) => {
     setSelectedFeeds(values);
   };
@@ -101,7 +100,7 @@ export default function NewsSection() {
             <Stack direction={{ base: 'column', md: 'row' }} spacing={4} mb={8} justify="center">
               {RSS_FEEDS.map((feed) => (
                 <Checkbox key={feed.label} value={feed.label} colorScheme="blue">
-                  {t(`${feed.label}`)}
+                  {t(`news.${feed.label.toLowerCase()}`)} {/* Use lowercase keys */}
                 </Checkbox>
               ))}
             </Stack>
@@ -113,11 +112,11 @@ export default function NewsSection() {
           {!loading && !error && Object.keys(feeds).length > 0 && (
             <VStack spacing={15} w="full">
               {Object.entries(feeds)
-                .filter(([label]) => selectedFeeds.includes(label)) // Only show selected feeds
+                .filter(([label]) => selectedFeeds.includes(label))
                 .map(([label, posts], feedIndex) => (
                   <Box key={label} w="full">
                     <Heading as="h2" size="lg" mb={6} color="blue.300">
-                      {t(`${label}`)}
+                      {t(`news.${label.toLowerCase()}`)} {/* Use lowercase keys */}
                     </Heading>
                     <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
                       {posts.map((post, index) => (
@@ -135,7 +134,7 @@ export default function NewsSection() {
                           variants={cardVariants}
                           initial="hidden"
                           animate={isInView ? 'visible' : 'hidden'}
-                          custom={index + feedIndex * 3} // Adjust index for multiple feeds
+                          custom={index + feedIndex * 3}
                         >
                           <Link href={post.link} isExternal _hover={{ textDecoration: 'none' }}>
                             <Image

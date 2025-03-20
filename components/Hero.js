@@ -1,3 +1,4 @@
+"use client"
 import { useState, useEffect } from 'react';
 import { Box, Text, Button, VStack, Fade, Flex, Icon } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
@@ -5,9 +6,9 @@ import { useTranslation } from 'react-i18next';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import Image from 'next/image';
 
-const MotionBox = motion(Box);
-const MotionFlex = motion(Flex);
-const MotionText = motion(Text);
+const MotionBox = motion.create(Box);
+const MotionFlex = motion.create(Flex);
+const MotionText = motion.create(Text);
 
 export default function Hero() {
   const { t } = useTranslation();

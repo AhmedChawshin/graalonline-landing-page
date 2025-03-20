@@ -1,3 +1,5 @@
+"use client"
+
 import { Box, Text, HStack, Link, VStack, Icon } from '@chakra-ui/react';
 import { FaTwitter, FaDiscord, FaFacebook } from 'react-icons/fa';
 import { TiSocialYoutube } from 'react-icons/ti';

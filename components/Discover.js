@@ -1,11 +1,13 @@
+"use client"
+
 import { Box, Heading, SimpleGrid, Text, Button, VStack, Fade, Image, HStack, Flex, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton, List, ListItem, ListIcon } from '@chakra-ui/react';
 import { motion, useInView } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useRef, useState } from 'react';
 import { FaSteam, FaApple, FaAndroid, FaGlobe } from 'react-icons/fa'; // Icons for platforms
 
-const MotionBox = motion(Box);
-const MotionImage = motion(Image);
+const MotionBox = motion.create(Box);
+const MotionImage = motion.create(Image);
 
 // Animation variants for a cooler effect
 const cardVariants = {
@@ -204,8 +206,8 @@ export default function Discover() {
                   textAlign="center"
                   px={2}
                   overflow="hidden"
-                  WebkitBoxOrient="vertical"
-                  WebkitLineClamp={3}
+                  webkitboxorient="vertical"
+                  webkitlineclamp={3}
                   flexGrow={1}
                 >
                   {game.description}
