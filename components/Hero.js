@@ -74,7 +74,7 @@ export default function Hero() {
           <VStack spacing={8} maxW="600px">
             {/* Glowing Heading */}
           <Image
-            src="/logograalonline.webp"
+            src="/logograalonlinequality.png"
             style={{
                 objectFit: "contain",
                 transition: "transform 0.3s ease-in-out",
