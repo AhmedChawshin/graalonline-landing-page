@@ -15,14 +15,16 @@ import { motion } from "framer-motion";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { useTranslation } from "react-i18next";
 import i18n from "../i18n";
-import { useState, useEffect } from "react"; // Add useState and useEffect
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation"; // Import useRouter
 
 const MotionButton = motion.create(Button);
 
 export default function Header() {
   const { t } = useTranslation();
   const { isOpen, onToggle } = useDisclosure();
-  const [language, setLanguage] = useState("en"); // Default language
+  const [language, setLanguage] = useState("en");
+  const router = useRouter(); // Initialize router
 
   // Sync language with i18n on mount (client-side only)
   useEffect(() => {
@@ -33,6 +35,15 @@ export default function Header() {
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
     setLanguage(lng); // Update local state
+  };
+
+  // Navigation functions
+  const navigateToHome = () => {
+    router.push("/");
+  };
+
+  const navigateToUpload = () => {
+    router.push("/upload");
   };
 
   return (
@@ -55,9 +66,11 @@ export default function Header() {
           style={{
             objectFit: "contain",
             transition: "transform 0.3s ease-in-out",
+            cursor: "pointer", // Add cursor pointer to indicate it's clickable
           }}
           onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
           onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+          onClick={navigateToHome} // Add click handler
           draggable="false"
         />
 
@@ -75,6 +88,15 @@ export default function Header() {
           display={{ base: "none", md: "flex" }}
           alignItems="center"
         >
+          <MotionButton
+            variant="ghost"
+            colorScheme="slate"
+            _hover={{ bg: "rgb(83, 166, 199)" }}
+            whileHover={{ scale: 1.05 }}
+            onClick={navigateToUpload} // Add upload navigation
+          >
+            {t("header.upload")}
+          </MotionButton>
           <MotionButton
             variant="ghost"
             colorScheme="slate"
@@ -110,7 +132,7 @@ export default function Header() {
           </MotionButton>
           <Select
             onChange={(e) => changeLanguage(e.target.value)}
-            value={language} // Use local state instead of i18n.language
+            value={language}
             width="120px"
             bg="slate.700"
             color="slate.100"
@@ -128,6 +150,19 @@ export default function Header() {
       <Collapse in={isOpen} animateOpacity>
         <Box pb={4} pt={2} display={{ md: "none" }}>
           <Flex direction="column" align="center" gap={2}>
+            <MotionButton
+              variant="ghost"
+              colorScheme="slate"
+              width="full"
+              _hover={{ bg: "rgb(83, 166, 199)" }}
+              whileHover={{ scale: 1.05 }}
+              onClick={() => {
+                navigateToUpload();
+                onToggle();
+              }}
+            >
+              {t("header.upload")}
+            </MotionButton>
             <MotionButton
               variant="ghost"
               colorScheme="slate"
@@ -169,7 +204,7 @@ export default function Header() {
             </MotionButton>
             <Select
               onChange={(e) => changeLanguage(e.target.value)}
-              value={language} // Use local state instead of i18n.language
+              value={language}
               width="full"
               bg="slate.700"
               color="slate.100"

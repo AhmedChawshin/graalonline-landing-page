@@ -1,9 +1,10 @@
+// components/upload/UploadTypeSelector.js
 'use client';
 
-import { Button, FormControl, FormLabel, SimpleGrid, Image, Text, Input } from '@chakra-ui/react';
+import { FormControl, FormLabel, SimpleGrid, Image, Text, Button, VStack, Input } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 
-export default function UploadTypeSelector({ selectedGame, formData, setFormData }) {
+export default function UploadTypeSelector({ selectedGame, formData, setFormData, uploadPrices }) {
   const { t } = useTranslation();
 
   const uploadTypes = [
@@ -27,22 +28,29 @@ export default function UploadTypeSelector({ selectedGame, formData, setFormData
           !option.hidden && (
             <Button
               key={option.value}
-              variant="outline"
-              bg={formData.type === option.value ? 'brand.500' : 'gray.800'}
-              color={formData.type === option.value ? 'white' : 'gray.200'}
-              border="1px solid"
-              borderColor={formData.type === option.value ? 'brand.400' : 'gray.500'}
-              _hover={{ bg: 'brand.500', color: 'white', borderColor: 'brand.400' }}
               onClick={() => setFormData((prev) => ({ ...prev, type: option.value }))}
-              display="flex"
-              flexDirection="row"
-              alignItems="center"
-              p={2}
+              variant={formData.type === option.value ? 'solid' : 'outline'}
+              colorScheme="brand"
+              size="md"
               borderRadius="md"
-              height="60px"
+              bg={formData.type === option.value ? 'brand.500' : 'gray.700'}
+              color="white"
+              border="1px solid"
+              borderColor={formData.type === option.value ? 'brand.500' : 'gray.600'}
+              _hover={{
+                bg: formData.type === option.value ? 'brand.600' : 'gray.600',
+                borderColor: 'brand.400',
+                transform: 'translateY(-2px)',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
+              }}
+              transition="all 0.3s ease"
+              leftIcon={<Image src={option.icon} boxSize="24px" />}
+              height="70px"
             >
-              <Image src={option.icon} boxSize="24px" mr={2} />
-              <Text fontSize="sm">{option.label}</Text>
+              <VStack spacing={1} align="start">
+                <Text fontSize="sm" fontWeight="medium">{option.label}</Text>
+                <Text fontSize="xs" color="gray.300">{uploadPrices[option.value] || 'Upload'}</Text>
+              </VStack>
             </Button>
           )
         ))}

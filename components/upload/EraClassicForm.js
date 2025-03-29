@@ -1,3 +1,4 @@
+// components/upload/EraClassicForm.js
 'use client';
 
 import { FormControl, FormLabel, Input, VStack, Button, Link } from '@chakra-ui/react';
@@ -6,7 +7,7 @@ import UploadTypeSelector from './UploadTypeSelector';
 import CustomCheckbox from './CustomCheckbox';
 import UploadRules from './UploadRules';
 
-export default function EraClassicForm({ selectedGame, formData, setFormData, handleSubmit }) {
+export default function EraClassicForm({ selectedGame, formData, setFormData, handleSubmit, isSubmitting, uploadPrices }) {
   const { t } = useTranslation();
 
   const handleInputChange = (e) => {
@@ -16,6 +17,8 @@ export default function EraClassicForm({ selectedGame, formData, setFormData, ha
       [name]: type === 'checkbox' ? checked : type === 'file' ? files[0] : value,
     }));
   };
+
+  const submitButtonText = uploadPrices[formData.type] || t('upload.submit', { defaultValue: 'Upload' });
 
   return (
     <VStack spacing={6} align="stretch" as="form" onSubmit={handleSubmit} encType="multipart/form-data">
@@ -57,7 +60,12 @@ export default function EraClassicForm({ selectedGame, formData, setFormData, ha
           size="lg"
         />
       </FormControl>
-      <UploadTypeSelector selectedGame={selectedGame} formData={formData} setFormData={setFormData} />
+      <UploadTypeSelector
+        selectedGame={selectedGame}
+        formData={formData}
+        setFormData={setFormData}
+        uploadPrices={uploadPrices} // Pass uploadPrices here
+      />
       {(selectedGame === 'classic' && (formData.type === 'guild_logo' || formData.type === 'guild_hat' || formData.type === 'guild_acc')) && (
         <FormControl>
           <FormLabel color="gray.300" fontSize="sm" fontWeight="medium">
@@ -129,32 +137,29 @@ export default function EraClassicForm({ selectedGame, formData, setFormData, ha
           {t('upload.setTransparency', { defaultValue: 'Set transparency?' })}
         </CustomCheckbox>
       </FormControl>
+      <UploadRules />
       <FormControl isRequired>
         <CustomCheckbox
           name="invalidCheck"
           isChecked={formData.invalidCheck}
           onChange={handleInputChange}
         >
-          {t('upload.tos1', { defaultValue: 'Do you agree to the ' })}
-          <Link href="#uploadrules" color="brand.500">
-            {t('upload.tos2', { defaultValue: 'rules and guidelines' })}
-          </Link>
-          {t('upload.tos3', { defaultValue: '?' })}
+          {t('upload.agreeRules', { defaultValue: 'Do you agree with the upload rules?' })}
         </CustomCheckbox>
       </FormControl>
-      <UploadRules />
       <Button
         type="submit"
         colorScheme="brand"
         size="lg"
-        isDisabled={!formData.invalidCheck}
+        isDisabled={!formData.invalidCheck || isSubmitting}
+        isLoading={isSubmitting}
         bg="brand.500"
         _hover={{ bg: 'brand.600', transform: 'translateY(-2px)', boxShadow: '0 4px 15px rgba(102, 126, 234, 0.3)' }}
         transition="all 0.3s"
         borderRadius="md"
         fontWeight="medium"
       >
-        {t('upload.submit', { defaultValue: 'Upload (20,000 gralats)' })}
+        Upload For {submitButtonText}
       </Button>
     </VStack>
   );

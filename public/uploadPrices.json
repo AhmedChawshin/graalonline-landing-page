@@ -1,0 +1,27 @@
+{
+    "classic": {
+      "head": "20,000 Gralats",
+      "body": "10,000 Gralats",
+      "shield": "1,000 Gralats",
+      "sword": "1,000 Gralats",
+      "guild_logo": "Free",
+      "guild_hat": "Free",
+      "guild_acc": "Free"
+    },
+    "olwest": {
+      "head": "20,000 Gralats",
+      "body": "10,000 Gralats"
+    },
+    "era": {
+      "head": "20,000 Gralats",
+      "body": "10,000 Gralats",
+      "shield": "2,500 Gralats",
+      "ganglogo": "Free"
+    },
+    "zone": {
+      "head": "Free",
+      "body": "Free",
+      "shield": "Free",
+      "shieldpublic": "Free"
+    }
+  }
