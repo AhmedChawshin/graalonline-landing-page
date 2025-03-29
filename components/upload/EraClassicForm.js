@@ -1,150 +1,130 @@
 // components/upload/EraClassicForm.js
-'use client';
+"use client";
 
-import { FormControl, FormLabel, Input, VStack, Button, Link } from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
-import UploadTypeSelector from './UploadTypeSelector';
-import CustomCheckbox from './CustomCheckbox';
-import UploadRules from './UploadRules';
+import { FormControl, FormLabel, Input, VStack, Button } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
+import UploadTypeSelector from "./UploadTypeSelector";
+import CustomCheckbox from "./CustomCheckbox";
+import UploadRules from "./UploadRules";
 
-export default function EraClassicForm({ selectedGame, formData, setFormData, handleSubmit, isSubmitting, uploadPrices }) {
+export default function EraClassicForm({ selectedGame, formData, setFormData, handleSubmit, isSubmitting, uploadPrices, fileInputRef }) {
   const { t } = useTranslation();
 
   const handleInputChange = (e) => {
     const { name, value, type, checked, files } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : type === 'file' ? files[0] : value,
+      [name]: type === "checkbox" ? checked : type === "file" ? files[0] : value,
     }));
   };
 
-  const submitButtonText = uploadPrices[formData.type] || t('upload.submit', { defaultValue: 'Upload' });
+  const submitButtonText = uploadPrices[formData.type] || t("upload.submit", { defaultValue: "Upload" });
 
   return (
     <VStack spacing={6} align="stretch" as="form" onSubmit={handleSubmit} encType="multipart/form-data">
       <FormControl isRequired>
         <FormLabel color="gray.300" fontSize="sm" fontWeight="medium">
-          {t('upload.accountInfo', { defaultValue: 'Enter your account information' })}
+          {t("upload.accountInfo", { defaultValue: "Enter your account information" })}
         </FormLabel>
         <Input
           name="email"
-          placeholder={selectedGame === 'classic' ? t('upload.emailOrGraalId', { defaultValue: 'Email address or Graal ID' }) : t('upload.graalId', { defaultValue: 'Graal ID' })}
+          placeholder={selectedGame === "classic" ? t("upload.emailOrGraalId", { defaultValue: "Email address or Graal ID" }) : t("upload.graalId", { defaultValue: "Graal ID" })}
           value={formData.email}
           onChange={handleInputChange}
           bg="gray.800"
           color="white"
           border="1px solid"
           borderColor="gray.600"
-          _hover={{ borderColor: 'brand.500' }}
-          _focus={{ borderColor: 'brand.500', boxShadow: '0 0 0 1px #667eea' }}
+          _hover={{ borderColor: "brand.500" }}
+          _focus={{ borderColor: "brand.500", boxShadow: "0 0 0 1px #667eea" }}
           borderRadius="md"
           size="lg"
         />
       </FormControl>
       <FormControl isRequired>
         <FormLabel color="gray.300" fontSize="sm" fontWeight="medium">
-          {t('upload.uploadCode', { defaultValue: 'Enter your upload code' })}
+          {t("upload.uploadCode", { defaultValue: "Enter your upload code" })}
         </FormLabel>
         <Input
           name="uploadcode"
-          placeholder={t('upload.uploadCodePlaceholder', { defaultValue: 'Upload Code' })}
+          placeholder={t("upload.uploadCodePlaceholder", { defaultValue: "Upload Code" })}
           value={formData.uploadcode}
           onChange={handleInputChange}
           bg="gray.800"
           color="white"
           border="1px solid"
           borderColor="gray.600"
-          _hover={{ borderColor: 'brand.500' }}
-          _focus={{ borderColor: 'brand.500', boxShadow: '0 0 0 1px #667eea' }}
+          _hover={{ borderColor: "brand.500" }}
+          _focus={{ borderColor: "brand.500", boxShadow: "0 0 0 1px #667eea" }}
           borderRadius="md"
           size="lg"
         />
       </FormControl>
-      <UploadTypeSelector
-        selectedGame={selectedGame}
-        formData={formData}
-        setFormData={setFormData}
-        uploadPrices={uploadPrices} // Pass uploadPrices here
-      />
-      {(selectedGame === 'classic' && (formData.type === 'guild_logo' || formData.type === 'guild_hat' || formData.type === 'guild_acc')) && (
+      <UploadTypeSelector selectedGame={selectedGame} formData={formData} setFormData={setFormData} uploadPrices={uploadPrices} />
+      {(selectedGame === "classic" && (formData.type === "guild_logo" || formData.type === "guild_hat" || formData.type === "guild_acc")) && (
         <FormControl>
           <FormLabel color="gray.300" fontSize="sm" fontWeight="medium">
-            {t('upload.guildInfo', { defaultValue: 'Enter your guild information' })}
+            {t("upload.guildInfo", { defaultValue: "Enter your guild information" })}
           </FormLabel>
           <Input
             name="guild"
-            placeholder={t('upload.guildName', { defaultValue: 'Guild name' })}
+            placeholder={t("upload.guildName", { defaultValue: "Guild name" })}
             value={formData.guild}
             onChange={handleInputChange}
             bg="gray.800"
             color="white"
             border="1px solid"
             borderColor="gray.600"
-            _hover={{ borderColor: 'brand.500' }}
-            _focus={{ borderColor: 'brand.500', boxShadow: '0 0 0 1px #667eea' }}
+            _hover={{ borderColor: "brand.500" }}
+            _focus={{ borderColor: "brand.500", boxShadow: "0 0 0 1px #667eea" }}
             borderRadius="md"
             size="lg"
           />
         </FormControl>
       )}
-      {(selectedGame === 'era' && formData.type === 'ganglogo') && (
+      {(selectedGame === "era" && formData.type === "ganglogo") && (
         <FormControl>
-          <CustomCheckbox
-            name="personalupload"
-            isChecked={formData.personalupload}
-            onChange={handleInputChange}
-          >
-            {t('upload.makePersonal', { defaultValue: 'Make personal?' })}
+          <CustomCheckbox name="personalupload" isChecked={formData.personalupload} onChange={handleInputChange}>
+            {t("upload.makePersonal", { defaultValue: "Make personal?" })}
           </CustomCheckbox>
         </FormControl>
       )}
-      {(selectedGame === 'classic' && formData.type === 'guild_logo') && (
+      {(selectedGame === "classic" && formData.type === "guild_logo") && (
         <FormControl>
-          <CustomCheckbox
-            name="personalupload"
-            isChecked={formData.personalupload}
-            onChange={handleInputChange}
-          >
-            {t('upload.makePersonal', { defaultValue: 'Make personal?' })}
+          <CustomCheckbox name="personalupload" isChecked={formData.personalupload} onChange={handleInputChange}>
+            {t("upload.makePersonal", { defaultValue: "Make personal?" })}
           </CustomCheckbox>
         </FormControl>
       )}
       <FormControl isRequired>
         <FormLabel color="gray.300" fontSize="sm" fontWeight="medium">
-          {t('upload.selectFile', { defaultValue: 'Select a file to upload' })}
+          {t("upload.selectFile", { defaultValue: "Select a file to upload" })}
         </FormLabel>
         <Input
           type="file"
           name="file"
           onChange={handleInputChange}
+          ref={fileInputRef} // Attach ref here
           bg="gray.800"
           color="white"
           border="1px solid"
           borderColor="gray.600"
-          _hover={{ borderColor: 'brand.500' }}
-          _focus={{ borderColor: 'brand.500', boxShadow: '0 0 0 1px #667eea' }}
+          _hover={{ borderColor: "brand.500" }}
+          _focus={{ borderColor: "brand.500", boxShadow: "0 0 0 1px #667eea" }}
           borderRadius="md"
           size="lg"
           p={1}
         />
       </FormControl>
       <FormControl>
-        <CustomCheckbox
-          name="transed"
-          isChecked={formData.transed}
-          onChange={handleInputChange}
-        >
-          {t('upload.setTransparency', { defaultValue: 'Set transparency?' })}
+        <CustomCheckbox name="transed" isChecked={formData.transed} onChange={handleInputChange}>
+          {t("upload.setTransparency", { defaultValue: "Set transparency?" })}
         </CustomCheckbox>
       </FormControl>
       <UploadRules />
       <FormControl isRequired>
-        <CustomCheckbox
-          name="invalidCheck"
-          isChecked={formData.invalidCheck}
-          onChange={handleInputChange}
-        >
-          {t('upload.agreeRules', { defaultValue: 'Do you agree with the upload rules?' })}
+        <CustomCheckbox name="invalidCheck" isChecked={formData.invalidCheck} onChange={handleInputChange}>
+          {t("upload.agreeRules", { defaultValue: "Do you agree with the upload rules?" })}
         </CustomCheckbox>
       </FormControl>
       <Button
@@ -154,7 +134,7 @@ export default function EraClassicForm({ selectedGame, formData, setFormData, ha
         isDisabled={!formData.invalidCheck || isSubmitting}
         isLoading={isSubmitting}
         bg="brand.500"
-        _hover={{ bg: 'brand.600', transform: 'translateY(-2px)', boxShadow: '0 4px 15px rgba(102, 126, 234, 0.3)' }}
+        _hover={{ bg: "brand.600", transform: "translateY(-2px)", boxShadow: "0 4px 15px rgba(102, 126, 234, 0.3)" }}
         transition="all 0.3s"
         borderRadius="md"
         fontWeight="medium"

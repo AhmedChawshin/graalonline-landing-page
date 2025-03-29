@@ -1,7 +1,7 @@
 // pages/upload.js
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react"; // Add useRef
 import { Box, Heading, VStack, Button, SimpleGrid, Image, Text } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
@@ -30,6 +30,7 @@ export default function Upload() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [uploadPrices, setUploadPrices] = useState({});
+  const fileInputRef = useRef(null); // Ref to control file input
 
   const games = [
     { value: "era", label: t("discover.games.graalEra.title", { defaultValue: "GraalOnline Era" }), endpoint: "https://eraupload.graalonline.com/upload-new.gs", icon: "/era.avif" },
@@ -57,34 +58,45 @@ export default function Upload() {
     const game = games.find((g) => g.value === selectedGame);
     if (!game) return;
 
+    if (!formData.file) {
+      toast({
+        title: t("upload.errorTitle", { defaultValue: "Upload Failed" }),
+        description: "Please select a file to upload.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
     setIsSubmitting(true);
 
     const data = new FormData();
 
     if (selectedGame === "era" || selectedGame === "classic") {
-      // Era and Classic specific fields
       data.append("email", formData.email);
       data.append("uploadcode", formData.uploadcode);
       data.append("type", formData.type);
-      data.append("type2", formData.type); // Mirror type for type2
-      data.append("guild", formData.guild || ""); // Empty string if not provided
+      data.append("type2", formData.type);
+      data.append("guild", formData.guild || "");
       data.append("file", formData.file);
-      data.append("submit", uploadPrices[selectedGame]?.[formData.type] || "Upload"); // Price or "Upload"
+      data.append("submit", uploadPrices[selectedGame]?.[formData.type] || "Upload");
     } else if (selectedGame === "olwest") {
-      // Ol'West specific fields
       data.append("email", formData.email);
       data.append("file", formData.file);
       data.append("type", formData.type);
       data.append("submit", uploadPrices[selectedGame]?.[formData.type] || "Upload");
-      if (formData.transed) data.append("transed", "on"); // Only include if checked
+      data.append("transed", formData.transed ? "on" : "off"); // Always include transed
     } else if (selectedGame === "zone") {
-      // Zone specific fields
       data.append("email", formData.email);
       data.append("file", formData.file);
       data.append("type", formData.type);
       data.append("submit", uploadPrices[selectedGame]?.[formData.type] || "Upload");
-      if (formData.transed) data.append("transed", "on"); // Only include if checked
+      data.append("transed", formData.transed ? "on" : "off"); // Always include transed
     }
+
+    console.log([...data.entries()]);
 
     try {
       const response = await fetch(game.endpoint, {
@@ -100,17 +112,7 @@ export default function Upload() {
       const messageElement = tempDiv.querySelector("#msg");
       const message = messageElement ? messageElement.textContent : "Message not found";
 
-      if (
-        message.includes("Please enable uploads from the options menu!") ||
-        message.includes("Please enter the correct Upload Code") ||
-        message.includes("Unknown file type") ||
-        message.includes("enough") ||
-        message.includes("Message not found") ||
-        message.includes("Sorry there was a problem with submitting the image!") ||
-        message.includes("You need to specify a correct e-mail address or Graal ID!") ||
-        message.includes("email") ||
-        message.includes("There is no player with the account")
-      ) {
+      if (!message.toLowerCase().includes("thanks for submitting the file! it will be reviewed by admins soon.".toLowerCase())) {
         toast({
           title: t("upload.errorTitle", { defaultValue: "Upload Failed" }),
           description: message,
@@ -128,7 +130,8 @@ export default function Upload() {
         duration: 5000,
         isClosable: true,
       });
-
+      
+      // Reset form completely, including file
       setFormData({
         email: "",
         uploadcode: "",
@@ -139,6 +142,11 @@ export default function Upload() {
         transed: false,
         invalidCheck: false,
       });
+
+      // Clear the file input in the DOM
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
     } catch (error) {
       toast({
         title: t("upload.errorTitle", { defaultValue: "Upload Failed" }),
@@ -230,6 +238,7 @@ export default function Upload() {
             handleSubmit={handleSubmit}
             isSubmitting={isSubmitting}
             uploadPrices={uploadPrices[selectedGame] || {}}
+            fileInputRef={fileInputRef} // Pass ref to form
           />
         );
       case "olwest":
@@ -240,6 +249,7 @@ export default function Upload() {
             handleSubmit={handleSubmit}
             isSubmitting={isSubmitting}
             uploadPrices={uploadPrices[selectedGame] || {}}
+            fileInputRef={fileInputRef} // Pass ref to form
           />
         );
       case "zone":
@@ -250,6 +260,7 @@ export default function Upload() {
             handleSubmit={handleSubmit}
             isSubmitting={isSubmitting}
             uploadPrices={uploadPrices[selectedGame] || {}}
+            fileInputRef={fileInputRef} // Pass ref to form
           />
         );
       default:
