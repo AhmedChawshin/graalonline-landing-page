@@ -101,6 +101,7 @@ export default function Upload() {
       const message = messageElement ? messageElement.textContent : "Message not found";
 
       if (
+        message.includes("Please enable uploads from the options menu!") ||
         message.includes("Please enter the correct Upload Code") ||
         message.includes("Unknown file type") ||
         message.includes("enough") ||
