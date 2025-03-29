@@ -1,7 +1,7 @@
 // pages/upload.js
 "use client";
 
-import { useState, useEffect, useRef } from "react"; // Add useRef
+import { useState, useEffect, useRef } from "react";
 import { Box, Heading, VStack, Button, SimpleGrid, Image, Text } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
@@ -30,7 +30,7 @@ export default function Upload() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [uploadPrices, setUploadPrices] = useState({});
-  const fileInputRef = useRef(null); // Ref to control file input
+  const fileInputRef = useRef(null);
 
   const games = [
     { value: "era", label: t("discover.games.graalEra.title", { defaultValue: "GraalOnline Era" }), endpoint: "https://eraupload.graalonline.com/upload-new.gs", icon: "/era.avif" },
@@ -82,18 +82,22 @@ export default function Upload() {
       data.append("guild", formData.guild || "");
       data.append("file", formData.file);
       data.append("submit", uploadPrices[selectedGame]?.[formData.type] || "Upload");
+      // Add personalupload for Era's shield and sword
+      if (selectedGame === "era" && (formData.type === "shield" || formData.type === "sword")) {
+        data.append("personalupload", formData.personalupload ? "on" : "off");
+      }
     } else if (selectedGame === "olwest") {
       data.append("email", formData.email);
       data.append("file", formData.file);
       data.append("type", formData.type);
       data.append("submit", uploadPrices[selectedGame]?.[formData.type] || "Upload");
-      data.append("transed", formData.transed ? "on" : "off"); // Always include transed
+      data.append("transed", formData.transed ? "on" : "off");
     } else if (selectedGame === "zone") {
       data.append("email", formData.email);
       data.append("file", formData.file);
       data.append("type", formData.type);
       data.append("submit", uploadPrices[selectedGame]?.[formData.type] || "Upload");
-      data.append("transed", formData.transed ? "on" : "off"); // Always include transed
+      data.append("transed", formData.transed ? "on" : "off");
     }
 
     console.log([...data.entries()]);
@@ -111,6 +115,7 @@ export default function Upload() {
       tempDiv.innerHTML = htmlContent;
       const messageElement = tempDiv.querySelector("#msg");
       const message = messageElement ? messageElement.textContent : "Message not found";
+
 
       if (!message.toLowerCase().includes("thanks for submitting the file! it will be reviewed by admins soon.".toLowerCase())) {
         toast({
@@ -131,7 +136,6 @@ export default function Upload() {
         isClosable: true,
       });
       
-      // Reset form completely, including file
       setFormData({
         email: "",
         uploadcode: "",
@@ -143,7 +147,6 @@ export default function Upload() {
         invalidCheck: false,
       });
 
-      // Clear the file input in the DOM
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
@@ -238,7 +241,7 @@ export default function Upload() {
             handleSubmit={handleSubmit}
             isSubmitting={isSubmitting}
             uploadPrices={uploadPrices[selectedGame] || {}}
-            fileInputRef={fileInputRef} // Pass ref to form
+            fileInputRef={fileInputRef}
           />
         );
       case "olwest":
@@ -249,7 +252,7 @@ export default function Upload() {
             handleSubmit={handleSubmit}
             isSubmitting={isSubmitting}
             uploadPrices={uploadPrices[selectedGame] || {}}
-            fileInputRef={fileInputRef} // Pass ref to form
+            fileInputRef={fileInputRef}
           />
         );
       case "zone":
@@ -260,7 +263,7 @@ export default function Upload() {
             handleSubmit={handleSubmit}
             isSubmitting={isSubmitting}
             uploadPrices={uploadPrices[selectedGame] || {}}
-            fileInputRef={fileInputRef} // Pass ref to form
+            fileInputRef={fileInputRef}
           />
         );
       default:

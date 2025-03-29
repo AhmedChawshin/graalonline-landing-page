@@ -20,6 +20,15 @@ export default function EraClassicForm({ selectedGame, formData, setFormData, ha
 
   const submitButtonText = uploadPrices[formData.type] || t("upload.submit", { defaultValue: "Upload" });
 
+  // Determine if transparency checkbox should be shown
+  const showTransed = !(
+    (selectedGame === "classic" && formData.type === "guild_logo") ||
+    (selectedGame === "era" && formData.type === "ganglogo")
+  );
+
+  // Determine if personal upload checkbox should be shown
+  const showPersonalUpload = selectedGame === "era" && (formData.type === "shield" || formData.type === "sword");
+
   return (
     <VStack spacing={6} align="stretch" as="form" onSubmit={handleSubmit} encType="multipart/form-data">
       <FormControl isRequired>
@@ -82,14 +91,7 @@ export default function EraClassicForm({ selectedGame, formData, setFormData, ha
           />
         </FormControl>
       )}
-      {(selectedGame === "era" && formData.type === "ganglogo") && (
-        <FormControl>
-          <CustomCheckbox name="personalupload" isChecked={formData.personalupload} onChange={handleInputChange}>
-            {t("upload.makePersonal", { defaultValue: "Make personal?" })}
-          </CustomCheckbox>
-        </FormControl>
-      )}
-      {(selectedGame === "classic" && formData.type === "guild_logo") && (
+      {showPersonalUpload && (
         <FormControl>
           <CustomCheckbox name="personalupload" isChecked={formData.personalupload} onChange={handleInputChange}>
             {t("upload.makePersonal", { defaultValue: "Make personal?" })}
@@ -104,7 +106,7 @@ export default function EraClassicForm({ selectedGame, formData, setFormData, ha
           type="file"
           name="file"
           onChange={handleInputChange}
-          ref={fileInputRef} // Attach ref here
+          ref={fileInputRef}
           bg="gray.800"
           color="white"
           border="1px solid"
@@ -116,11 +118,13 @@ export default function EraClassicForm({ selectedGame, formData, setFormData, ha
           p={1}
         />
       </FormControl>
-      <FormControl>
-        <CustomCheckbox name="transed" isChecked={formData.transed} onChange={handleInputChange}>
-          {t("upload.setTransparency", { defaultValue: "Set transparency?" })}
-        </CustomCheckbox>
-      </FormControl>
+      {showTransed && (
+        <FormControl>
+          <CustomCheckbox name="transed" isChecked={formData.transed} onChange={handleInputChange}>
+            {t("upload.setTransparency", { defaultValue: "Set transparency?" })}
+          </CustomCheckbox>
+        </FormControl>
+      )}
       <UploadRules />
       <FormControl isRequired>
         <CustomCheckbox name="invalidCheck" isChecked={formData.invalidCheck} onChange={handleInputChange}>
@@ -139,7 +143,7 @@ export default function EraClassicForm({ selectedGame, formData, setFormData, ha
         borderRadius="md"
         fontWeight="medium"
       >
-        Upload For {submitButtonText}
+       Upload For {submitButtonText}
       </Button>
     </VStack>
   );
