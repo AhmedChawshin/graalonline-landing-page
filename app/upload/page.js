@@ -201,7 +201,7 @@ export default function Upload() {
 
     return (
       <MotionBox initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: "easeOut" }}>
-        <VStack spacing={6} maxW="700px" mx="auto">
+        <VStack spacing={6} maxW="1000px" mx="auto">
           <MotionHeading as="h1" size="xl" textAlign="center" color="white" fontWeight="bold">
             {selectedGameData.label}
           </MotionHeading>

@@ -46,6 +46,10 @@ export default function Header() {
     router.push("/upload");
   };
 
+  const navigateToDownload = () => {
+    router.push("/download");
+  };
+  
   return (
     <Box
       as="header"
@@ -103,19 +107,18 @@ export default function Header() {
             _hover={{ bg: "rgb(83, 166, 199)" }}
             whileHover={{ scale: 1.05 }}
             as="a"
-            href="https://www.graalonline.com/playerworlds/"
+            href="https://support.toonslab.com/"
             target="_blank"
           >
             {t("header.support")}
           </MotionButton>
           <MotionButton
+
             variant="ghost"
             colorScheme="slate"
             _hover={{ bg: "rgb(83, 166, 199)" }}
             whileHover={{ scale: 1.05 }}
-            as="a"
-            href="https://www.graalonline.com/playerworlds/downloads/"
-            target="_blank"
+            onClick={navigateToDownload} 
           >
             {t("header.download")}
           </MotionButton>
@@ -182,10 +185,10 @@ export default function Header() {
               width="full"
               _hover={{ bg: "rgb(83, 166, 199)" }}
               whileHover={{ scale: 1.05 }}
-              as="a"
-              href="https://www.graalonline.com/playerworlds/downloads/"
-              target="_blank"
-              onClick={onToggle}
+              onClick={() => {
+                navigateToDownload();
+                onToggle();
+              }}
             >
               {t("header.download")}
             </MotionButton>
