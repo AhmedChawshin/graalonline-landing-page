@@ -36,9 +36,9 @@ const cardVariants = {
     y: 0,
     scale: 1,
     transition: {
-      duration: 2,
-      ease: [0.6, -0.05, 0.01, 0.99],
-      delay: index * 0.15,
+      duration: 0.5, // Faster for mobile compatibility
+      ease: "easeOut",
+      delay: index * 0.1,
     },
   }),
 };
@@ -65,7 +65,6 @@ export default function NewsSection() {
         for (const feed of RSS_FEEDS) {
           const response = await fetch(
             `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`,
-            { cache: "no-store" } // Prevent caching issues
           );
           const data = await response.json();
 
@@ -76,18 +75,18 @@ export default function NewsSection() {
           const formattedPosts = data.items.slice(0, 3).map((item) => ({
             title: item.title.replace(/\\u[\dA-F]{4}/gi, (match) =>
               String.fromCharCode(parseInt(match.substr(2), 16))
-            ) || "Untitled",
+            ),
             description: item.description
               .replace(/<[^>]+>/g, "")
               .replace(/\\n/g, " ")
-              .trim() || "No description available",
+              .trim(),
             link: item.link,
             date: new Date(item.pubDate).toLocaleDateString("en-US", {
               month: "short",
               day: "numeric",
               year: "numeric",
-            }) || "Unknown date",
-            thumbnail: item.thumbnail || item.enclosure?.link || "/potluck.png",
+            }),
+            thumbnail: item.thumbnail || item.enclosure?.link || "/potluck.png", // Your original thumbnail logic
           }));
 
           feedData[feed.label] = formattedPosts;
@@ -95,7 +94,7 @@ export default function NewsSection() {
 
         setFeeds(feedData);
       } catch (err) {
-        setError(t("news.error") || "Failed to load news");
+        setError(t("news.error"));
         console.error(err);
       } finally {
         setLoading(false);
@@ -172,7 +171,7 @@ export default function NewsSection() {
                           boxShadow="lg"
                           overflow="hidden"
                           _hover={{
-                            transform: `rotate(${feedIndex % 2 === 0 ? index * 2 : -index * 2}deg) scale(1.03)`,
+                            transform: "scale(1.03)", // Simplified hover for mobile
                             boxShadow: "xl",
                             bg: "gray.700",
                           }}
@@ -190,7 +189,7 @@ export default function NewsSection() {
                               w="full"
                               objectFit="cover"
                               borderTopRadius="lg"
-                              fallbackSrc="/potluck.png" // Reverted to original fallbackSrc
+                              fallbackSrc="/potluck.png" // Your original working fallback
                             />
                             <Box p={{ base: 4, md: 5 }}>
                               <Heading
