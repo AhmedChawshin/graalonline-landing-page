@@ -197,20 +197,20 @@ export default function Upload() {
             color="white"
             border="2px solid"
             borderColor="gray.600"
-            borderRadius="lg" // Softer corners
-            p={8} // Larger padding inside buttons
-            height="200px" // Taller buttons
-            width="100%" // Full width within grid cell
+            borderRadius="lg" 
+            p={8} 
+            height="200px" 
+            width="100%" 
             display="flex"
             flexDirection="column"
             alignItems="center"
             justifyContent="center"
-            initial={{ scale: 0.85, y: 40 }} // Start smaller and lower
-            animate={{ scale: 1, y: 0 }} // Animate into place
+            initial={{ scale: 0.85, y: 40 }} 
+            animate={{ scale: 1, y: 0 }} 
             transition={{ 
-              duration: 0.6, 
+              duration: 0.1, 
               ease: "easeOut", 
-              delay: 0.1 * index // Staggered animation
+              delay: 0.1 * index 
             }}
             _hover={{
               borderColor: "brand.400",

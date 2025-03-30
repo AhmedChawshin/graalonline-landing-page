@@ -114,7 +114,7 @@ export default function ZoneForm({ formData, setFormData, handleSubmit, isSubmit
           {t("upload.transparencyHelp", { defaultValue: "It sets the transparent color as the same color in the top left corner of the image" })}
         </Text>
       </FormControl>
-      <UploadRules />
+      <UploadRules game={"zone"} />
       <FormControl isRequired>
         <CustomCheckbox name="invalidCheck" isChecked={formData.invalidCheck} onChange={handleInputChange}>
           {t("upload.agreeRules", { defaultValue: "Do you agree with the upload rules?" })}

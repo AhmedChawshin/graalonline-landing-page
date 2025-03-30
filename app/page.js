@@ -10,9 +10,11 @@ export default function Home() {
     <>
       <Box as="main" minH="200vh" color="white">
         <VStack spacing={0} align="stretch">
+           {/* 
           <Box id="home" minH="100vh">
             <Hero />
           </Box>
+           */}
           <Box id="discover" minH="100vh">
             <Discover />
           </Box>

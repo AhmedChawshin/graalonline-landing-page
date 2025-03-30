@@ -125,7 +125,7 @@ export default function EraClassicForm({ selectedGame, formData, setFormData, ha
           </CustomCheckbox>
         </FormControl>
       )}
-      <UploadRules />
+      <UploadRules game={selectedGame} />
       <FormControl isRequired>
         <CustomCheckbox name="invalidCheck" isChecked={formData.invalidCheck} onChange={handleInputChange}>
           {t("upload.agreeRules", { defaultValue: "Do you agree with the upload rules?" })}
