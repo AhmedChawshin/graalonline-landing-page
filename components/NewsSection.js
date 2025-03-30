@@ -64,7 +64,8 @@ export default function NewsSection() {
 
         for (const feed of RSS_FEEDS) {
           const response = await fetch(
-            `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`
+            `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`,
+            { cache: "no-store" } 
           );
           const data = await response.json();
 
@@ -172,7 +173,7 @@ export default function NewsSection() {
                           boxShadow="lg"
                           overflow="hidden"
                           _hover={{
-                            transform: `rotate(${feedIndex % 2 === 0 ? index * 2 : -index * 2}deg) scale(1.03)`,
+                            transform: "scale(1.03)", 
                             boxShadow: "xl",
                             bg: "gray.700",
                           }}
