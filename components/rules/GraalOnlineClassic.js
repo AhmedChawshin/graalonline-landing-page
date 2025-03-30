@@ -121,9 +121,24 @@ export default function GraalOnlineClassicRules() {
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-      >
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        gap={2}
+        >
+        <MotionBox
+            as="img"
+            src="/classiclowreslogo.webp" 
+            alt="Ol'West Icon"
+            dragable="false"
+            width="30px"
+            height="30px"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.3 }}
+        />
         GraalOnline Classic Rules
-      </MotionHeading>
+        </MotionHeading>
       
       <Box w="full">
         <Accordion allowMultiple>

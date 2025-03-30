@@ -7,12 +7,13 @@ import { motion } from "framer-motion";
 import GraalOnlineEraRules from "../../components/rules/GraalOnlineEra"
 import GraalOnlineRules from "../../components/rules/GraalOnline"
 import GraalOnlineClassicRules from "../../components/rules/GraalOnlineClassic"
+import GraalOnlineZoneRules from "../../components/rules/GraalOnlineZone"
+import GraalOnlineOlwestRules from "../../components/rules/GraalOnlineOlwest"
 import PlayerworldsRules from "../../components/rules/Playerworlds"
 
 const MotionBox = motion(Box);
 
 export default function Rules() {
- 
     return (
     <MotionBox
       minH="100vh"
@@ -28,8 +29,9 @@ export default function Rules() {
       <GraalOnlineRules />
       <GraalOnlineEraRules />
       <GraalOnlineClassicRules />
+      <GraalOnlineOlwestRules />
+      <GraalOnlineZoneRules />
       <PlayerworldsRules />
-
     </MotionBox>
   );
 }
