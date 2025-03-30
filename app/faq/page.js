@@ -21,7 +21,6 @@ import { useState } from "react";
 const MotionBox = motion(Box);
 const MotionHeading = motion(Heading);
 
-// Sample FAQ data with categories, using <br /> for line breaks
 const faqData = [
   {
     question: "Support for playerworlds",

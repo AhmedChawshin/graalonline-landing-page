@@ -34,6 +34,9 @@ export default function Footer() {
           <Link href="/rules" passHref legacyBehavior>
             <ChakraLink>{t('footer.rules')}</ChakraLink>
           </Link>
+          <Link href="/faq" passHref legacyBehavior>
+            <ChakraLink>Frequently Asked Questions</ChakraLink>
+          </Link>
           <ChakraLink href="https://www.toonslab.com/" isExternal>{t('footer.toonslab')}</ChakraLink>
         </HStack>
         <Text fontSize="sm">{t('footer.copyright')}</Text>

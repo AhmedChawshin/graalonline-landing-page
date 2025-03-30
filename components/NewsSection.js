@@ -1,17 +1,31 @@
-"use client"
-import { useEffect, useState, useRef } from 'react';
-import { Box, Heading, Text, VStack, Fade, Link, Flex, Button, Image, SimpleGrid, Checkbox, CheckboxGroup, Stack } from '@chakra-ui/react';
-import { motion, useInView } from 'framer-motion';
-import { useTranslation } from 'react-i18next';
+"use client";
+import { useEffect, useState, useRef } from "react";
+import {
+  Box,
+  Heading,
+  Text,
+  VStack,
+  Fade,
+  Link,
+  Flex,
+  Button,
+  Image,
+  SimpleGrid,
+  Checkbox,
+  CheckboxGroup,
+  Stack,
+} from "@chakra-ui/react";
+import { motion, useInView } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 const MotionBox = motion(Box);
 
 // RSS feeds with game labels
 const RSS_FEEDS = [
-  { url: 'https://fetchrss.com/rss/67dc10f911087c9f2e07117267dc114fafd4cc2f7b0eb142.rss', label: 'Era' },
-  { url: 'https://fetchrss.com/rss/67dc10f911087c9f2e07117267dc10e01c3dd50d360f3a43.rss', label: 'Classic' },
-  { url: 'https://fetchrss.com/rss/67dc10f911087c9f2e07117267dc118abf187c22500e1c42.rss', label: "Ol'West" },
-  { url: 'https://fetchrss.com/rss/67dc10f911087c9f2e07117267dc11766f3966b055048784.rss', label: 'Zone' },
+  { url: "https://fetchrss.com/rss/67dc10f911087c9f2e07117267dc114fafd4cc2f7b0eb142.rss", label: "Era" },
+  { url: "https://fetchrss.com/rss/67dc10f911087c9f2e07117267dc10e01c3dd50d360f3a43.rss", label: "Classic" },
+  { url: "https://fetchrss.com/rss/67dc10f911087c9f2e07117267dc118abf187c22500e1c42.rss", label: "Ol'West" },
+  { url: "https://fetchrss.com/rss/67dc10f911087c9f2e07117267dc11766f3966b055048784.rss", label: "Zone" },
 ];
 
 // Animation variants for a cooler effect
@@ -23,8 +37,8 @@ const cardVariants = {
     scale: 1,
     transition: {
       duration: 2,
-      ease: [0.6, -0.05, 0.01, 0.99], // Smooth easing with a slight bounce
-      delay: index * 0.15, // Staggered delay for each card
+      ease: [0.6, -0.05, 0.01, 0.99],
+      delay: index * 0.15,
     },
   }),
 };
@@ -40,7 +54,7 @@ export default function NewsSection() {
   });
 
   const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, margin: '-300px' });
+  const isInView = useInView(sectionRef, { once: true, margin: "-300px" });
 
   useEffect(() => {
     const fetchRSS = async () => {
@@ -49,23 +63,30 @@ export default function NewsSection() {
         const feedData = {};
 
         for (const feed of RSS_FEEDS) {
-          const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`);
+          const response = await fetch(
+            `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`
+          );
           const data = await response.json();
 
-          if (data.status !== 'ok') {
+          if (data.status !== "ok") {
             throw new Error(`Failed to fetch posts for ${feed.label}`);
           }
 
           const formattedPosts = data.items.slice(0, 3).map((item) => ({
-            title: item.title.replace(/\\u[\dA-F]{4}/gi, (match) => String.fromCharCode(parseInt(match.substr(2), 16))),
-            description: item.description.replace(/<[^>]+>/g, '').replace(/\\n/g, ' ').trim(),
+            title: item.title.replace(/\\u[\dA-F]{4}/gi, (match) =>
+              String.fromCharCode(parseInt(match.substr(2), 16))
+            ),
+            description: item.description
+              .replace(/<[^>]+>/g, "")
+              .replace(/\\n/g, " ")
+              .trim(),
             link: item.link,
             date: new Date(item.pubDate).toLocaleDateString("en-US", {
               month: "short",
               day: "numeric",
               year: "numeric",
             }),
-            thumbnail: item.thumbnail || item.enclosure?.link || '/potluck.png',
+            thumbnail: item.thumbnail || item.enclosure?.link || "/potluck.png",
           }));
 
           feedData[feed.label] = formattedPosts;
@@ -73,7 +94,7 @@ export default function NewsSection() {
 
         setFeeds(feedData);
       } catch (err) {
-        setError(t('news.error'));
+        setError(t("news.error"));
         console.error(err);
       } finally {
         setLoading(false);
@@ -89,25 +110,39 @@ export default function NewsSection() {
 
   return (
     <Fade in>
-      <Box bg="gray.900" color="white" px={6} py={12} minH="100vh" ref={sectionRef}>
+      <Box bg="gray.900" color="white" px={{ base: 4, md: 6 }} py={12} minH="100vh" ref={sectionRef}>
         <VStack spacing={12} maxW="1400px" mx="auto">
-          <Heading as="h1" size="2xl" textAlign="center">
-            {t('news.title')}
+          <Heading as="h1" size={{ base: "xl", md: "2xl" }} textAlign="center">
+            {t("news.title")}
           </Heading>
 
           {/* Feed Selection Checkboxes */}
           <CheckboxGroup value={selectedFeeds} onChange={handleFeedSelection}>
-            <Stack direction={{ base: 'column', md: 'row' }} spacing={4} mb={8} justify="center">
+            <Stack
+              direction={{ base: "column", md: "row" }}
+              spacing={{ base: 4, md: 6 }}
+              mb={8}
+              justify="center"
+              align="center"
+            >
               {RSS_FEEDS.map((feed) => (
-                <Checkbox key={feed.label} value={feed.label} colorScheme="blue">
-                  {t(`news.${feed.label.toLowerCase()}`)} {/* Use lowercase keys */}
+                <Checkbox
+                  key={feed.label}
+                  value={feed.label}
+                  colorScheme="blue"
+                  size="lg" // Larger size for mobile
+                  sx={{ "& .chakra-checkbox__control": { borderWidth: "2px" } }} // Thicker border for contrast
+                >
+                  <Text fontSize={{ base: "md", md: "lg" }} color="white">
+                    {t(`news.${feed.label.toLowerCase()}`)}
+                  </Text>
                 </Checkbox>
               ))}
             </Stack>
           </CheckboxGroup>
 
-          {loading && <Text>{t('news.loading')}</Text>}
-          {error && <Text color="red.300">{error}</Text>}
+          {loading && <Text fontSize="lg">{t("news.loading")}</Text>}
+          {error && <Text fontSize="lg" color="red.300">{error}</Text>}
 
           {!loading && !error && Object.keys(feeds).length > 0 && (
             <VStack spacing={15} w="full">
@@ -115,10 +150,10 @@ export default function NewsSection() {
                 .filter(([label]) => selectedFeeds.includes(label))
                 .map(([label, posts], feedIndex) => (
                   <Box key={label} w="full">
-                    <Heading as="h2" size="lg" mb={6} color="blue.300">
-                      {t(`news.${label.toLowerCase()}`)} {/* Use lowercase keys */}
+                    <Heading as="h2" size={{ base: "md", md: "lg" }} mb={6} color="blue.300">
+                      {t(`news.${label.toLowerCase()}`)}
                     </Heading>
-                    <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
+                    <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 6, md: 8 }}>
                       {posts.map((post, index) => (
                         <MotionBox
                           key={index}
@@ -128,42 +163,54 @@ export default function NewsSection() {
                           overflow="hidden"
                           _hover={{
                             transform: `rotate(${feedIndex % 2 === 0 ? index * 2 : -index * 2}deg) scale(1.03)`,
-                            boxShadow: 'xl',
-                            bg: 'gray.700',
+                            boxShadow: "xl",
+                            bg: "gray.700",
                           }}
                           variants={cardVariants}
                           initial="hidden"
-                          animate={isInView ? 'visible' : 'hidden'}
+                          animate={isInView ? "visible" : "hidden"}
                           custom={index + feedIndex * 3}
                         >
-                          <Link href={post.link} isExternal _hover={{ textDecoration: 'none' }}>
+                          <Link href={post.link} isExternal _hover={{ textDecoration: "none" }}>
                             <Image
                               src={post.thumbnail}
                               alt={post.title}
-                              h="200px"
+                              h={{ base: "150px", md: "200px" }} // Smaller height on mobile
                               w="full"
                               objectFit="cover"
                               borderTopRadius="lg"
                               fallbackSrc="/potluck.png"
                             />
-                            <Box p={5}>
-                              <Heading as="h3" size="md" mb={3} color="white" noOfLines={2}>
+                            <Box p={{ base: 4, md: 5 }}>
+                              <Heading
+                                as="h3"
+                                size={{ base: "sm", md: "md" }}
+                                mb={3}
+                                color="white"
+                                noOfLines={2}
+                              >
                                 {post.title}
                               </Heading>
-                              <Text fontSize="sm" color="gray.300" noOfLines={3} mb={4}>
+                              <Text
+                                fontSize={{ base: "xs", md: "sm" }}
+                                color="gray.300"
+                                noOfLines={3}
+                                mb={4}
+                              >
                                 {post.description.replace("(Feed generated with FetchRSS)", "")}
                               </Text>
                               <Flex justify="space-between" align="center">
-                                <Text fontSize="xs" color="gray.400">
+                                <Text fontSize={{ base: "2xs", md: "xs" }} color="gray.400">
                                   {post.date}
                                 </Text>
                                 <Button
-                                  size="sm"
+                                  size={{ base: "xs", md: "sm" }} // Smaller button on mobile
                                   colorScheme="blue"
                                   variant="outline"
-                                  _hover={{ bg: 'blue.600', color: 'white' }}
+                                  _hover={{ bg: "blue.600", color: "white" }}
+                                  px={{ base: 4, md: 6 }} // Larger padding for touch target
                                 >
-                                  {t('news.readMore')}
+                                  {t("news.readMore")}
                                 </Button>
                               </Flex>
                             </Box>
@@ -177,11 +224,11 @@ export default function NewsSection() {
           )}
 
           {!loading && !error && selectedFeeds.length > 0 && Object.keys(feeds).filter(label => selectedFeeds.includes(label)).length === 0 && (
-            <Text>{t('news.noPosts')}</Text>
+            <Text fontSize="lg">{t("news.noPosts")}</Text>
           )}
 
           {!loading && !error && selectedFeeds.length === 0 && (
-            <Text>{t('news.selectFeed')}</Text>
+            <Text fontSize="lg">{t("news.selectFeed")}</Text>
           )}
         </VStack>
       </Box>
