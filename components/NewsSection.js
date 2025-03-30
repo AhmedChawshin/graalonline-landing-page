@@ -36,9 +36,9 @@ const cardVariants = {
     y: 0,
     scale: 1,
     transition: {
-      duration: 2,
-      ease: [0.6, -0.05, 0.01, 0.99],
-      delay: index * 0.15,
+      duration: 0.5,
+      ease: "easeOut", 
+      delay: index * 0.1, 
     },
   }),
 };
