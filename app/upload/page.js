@@ -165,51 +165,79 @@ export default function Upload() {
 
   const renderGameSelection = () => (
     <MotionBox
-      initial={{ opacity: 0, y: 50, scale: 0.8 }} // Start slightly smaller and lower
-      animate={{ opacity: 1, y: 0, scale: 1 }} // Scale up to full size and move into place
-      transition={{ duration: 0.7, ease: "easeOut" }} // Smooth transition
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      py={12} // Increased vertical padding
+      px={6}
     >
       <Heading
         as="h1"
-        size="xl"
+        size="2xl" // Larger heading
         textAlign="center"
         color="white"
-        fontWeight="bold"
-        mb={10}
-        textShadow="0 2px 4px rgba(0, 0, 0, 0.2)"
+        fontWeight="extrabold"
+        mb={12}
+        textShadow="0 4px 6px rgba(0, 0, 0, 0.3)"
+        letterSpacing="wide" // Slight letter spacing for elegance
       >
         {t("upload.selectGame", { defaultValue: "Select a Game to Upload" })}
       </Heading>
-      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6} maxW="700px" mx="auto">
-        {games.map((game) => (
+      <SimpleGrid
+        columns={{ base: 1, sm: 2, md: 3, lg: 4 }} // Responsive columns: up to 4 on large screens
+        spacing={8} // Increased spacing for breathing room
+        maxW="1200px" // Wider max width for larger screens
+        mx="auto"
+      >
+        {games.map((game, index) => (
           <MotionButton
             key={game.value}
             onClick={() => setSelectedGame(game.value)}
             bg="gray.800"
             color="white"
-            border="1px solid"
+            border="2px solid"
             borderColor="gray.600"
-            borderRadius="md"
-            p={6}
-            height="150px"
+            borderRadius="lg" // Softer corners
+            p={8} // Larger padding inside buttons
+            height="200px" // Taller buttons
+            width="100%" // Full width within grid cell
             display="flex"
             flexDirection="column"
             alignItems="center"
             justifyContent="center"
-            initial={{ scale: 0.9, y: 30 }} // Buttons start smaller and lower
-            animate={{ scale: 1, y: 0 }} // Buttons "pop" forward
-            transition={{ duration: 0.5, ease: "easeOut", delay: 0.1 * games.indexOf(game) }} // Staggered effect
+            initial={{ scale: 0.85, y: 40 }} // Start smaller and lower
+            animate={{ scale: 1, y: 0 }} // Animate into place
+            transition={{ 
+              duration: 0.6, 
+              ease: "easeOut", 
+              delay: 0.1 * index // Staggered animation
+            }}
             _hover={{
               borderColor: "brand.400",
               bg: "gray.700",
-              transform: "translateY(-2px) scale(1.05)", // Slight zoom on hover
-              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
+              transform: "translateY(-5px)", // Lift effect on hover
+              boxShadow: "0 6px 16px rgba(0, 0, 0, 0.25)", // Stronger shadow
             }}
-            whileHover={{ scale: 1.07 }} // Framer Motion hover animation
-            whileTap={{ scale: 0.95 }} // Slight shrink on click
+            whileHover={{ scale: 1.08 }} // Smooth hover scale
+            whileTap={{ scale: 0.97 }} // Subtle tap feedback
+            sx={{
+              transition: "all 0.2s ease-out", // Smooth hover transition
+            }}
           >
-            <Image src={game.icon} boxSize="50px" mb={3} draggable="false" />
-            <Text fontSize="lg" fontWeight="medium">{game.label}</Text>
+            <Image 
+              src={game.icon} 
+              boxSize="70px" // Larger icons
+              mb={4} 
+              draggable="false" 
+              filter="drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2))" // Icon shadow
+            />
+            <Text 
+              fontSize="xl" // Larger text
+              fontWeight="semibold"
+              textShadow="0 1px 2px rgba(0, 0, 0, 0.1)"
+            >
+              {game.label}
+            </Text>
           </MotionButton>
         ))}
       </SimpleGrid>
@@ -294,7 +322,7 @@ export default function Upload() {
 
   return (
     <MotionBox
-      minH="100vh"
+      minH="80vh"
       bgImage="url('https://i.imgur.com/oN8rCgO.png')"
       bgRepeat="repeat"
       bgSize="auto"

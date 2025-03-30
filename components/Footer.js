@@ -10,7 +10,7 @@ export default function Footer() {
   const { t } = useTranslation();
 
   return (
-    <Box as="footer" bg="slate.800" color="slate.100" py={10} px={6}>
+    <Box as="footer" bg="slate.800" color="slate.100" py={10} px={6} borderTop="2px solid #57cbf8">
       <VStack spacing={6}>
         <HStack spacing={8} justify="center">
           <ChakraLink href="https://twitter.com/GraalOnline" isExternal>

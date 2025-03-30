@@ -25,7 +25,7 @@ const resources = {
         playNow: 'Play Now', // Added missing key
         games: {
           graalZone: {
-            title: 'Graal Zone',
+            title: 'GraalOnline Zone',
             description: 'A futuristic 2D combat game',
           },
           graalonlineClassic: {
@@ -33,11 +33,11 @@ const resources = {
             description: 'Explore worlds, chat with friends!',
           },
           graalOlwest: {
-            title: 'Graal Olwest',
+            title: 'GraalOnline Olwest',
             description: 'Experience the Wild West',
           },
           graalEra: {
-            title: 'Graal Era',
+            title: 'GraalOnline Era',
             description: 'The next generation of Graal',
           },
         },
@@ -162,7 +162,7 @@ const resources = {
       },
       discover: {
         title: 'Descubre Graal Online',
-        playNow: 'Jugar Ahora', // Added missing key
+        playNow: 'Jugar Ahora', 
         games: {
           graalZone: {
             title: 'Graal Zone',
@@ -173,11 +173,11 @@ const resources = {
             description: '¡Explora mundos, chatea con amigos!',
           },
           graalOlwest: {
-            title: 'Graal Olwest',
+            title: 'GraalOnline Olwest',
             description: 'Vive el Salvaje Oeste',
           },
           graalEra: {
-            title: 'Graal Era',
+            title: 'GraalOnline Era',
             description: 'La próxima generación de Graal',
           },
         },
@@ -312,11 +312,11 @@ const resources = {
             description: 'Explorez des mondes, discutez avec des amis !',
           },
           graalOlwest: {
-            title: 'Graal Olwest',
+            title: 'GraalOnline Olwest',
             description: 'Vivez l’expérience du Far West',
           },
           graalEra: {
-            title: 'Graal Era',
+            title: 'GraalOnline Era',
             description: 'La prochaine génération de Graal',
           },
         },
