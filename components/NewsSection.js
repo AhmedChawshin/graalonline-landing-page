@@ -36,9 +36,9 @@ const cardVariants = {
     y: 0,
     scale: 1,
     transition: {
-      duration: 0.5,
-      ease: "easeOut", 
-      delay: index * 0.1, 
+      duration: 2,
+      ease: [0.6, -0.05, 0.01, 0.99],
+      delay: index * 0.15,
     },
   }),
 };
@@ -54,7 +54,7 @@ export default function NewsSection() {
   });
 
   const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-300px" });
+  const isInView = useInView(sectionRef, { once: true, margin: "-100px" }); // Adjusted for earlier trigger
 
   useEffect(() => {
     const fetchRSS = async () => {
@@ -65,7 +65,7 @@ export default function NewsSection() {
         for (const feed of RSS_FEEDS) {
           const response = await fetch(
             `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`,
-            { cache: "no-store" } 
+            { cache: "no-store" } // Prevent caching issues
           );
           const data = await response.json();
 
@@ -76,17 +76,17 @@ export default function NewsSection() {
           const formattedPosts = data.items.slice(0, 3).map((item) => ({
             title: item.title.replace(/\\u[\dA-F]{4}/gi, (match) =>
               String.fromCharCode(parseInt(match.substr(2), 16))
-            ),
+            ) || "Untitled",
             description: item.description
               .replace(/<[^>]+>/g, "")
               .replace(/\\n/g, " ")
-              .trim(),
+              .trim() || "No description available",
             link: item.link,
             date: new Date(item.pubDate).toLocaleDateString("en-US", {
               month: "short",
               day: "numeric",
               year: "numeric",
-            }),
+            }) || "Unknown date",
             thumbnail: item.thumbnail || item.enclosure?.link || "/potluck.png",
           }));
 
@@ -95,7 +95,7 @@ export default function NewsSection() {
 
         setFeeds(feedData);
       } catch (err) {
-        setError(t("news.error"));
+        setError(t("news.error") || "Failed to load news");
         console.error(err);
       } finally {
         setLoading(false);
@@ -121,7 +121,7 @@ export default function NewsSection() {
         position="relative" // Ensure stacking context
         overflow="visible" // Prevent clipping
       >
-      <VStack spacing={12} maxW="1400px" mx="auto">
+        <VStack spacing={12} maxW="1400px" mx="auto">
           <Heading as="h1" size={{ base: "xl", md: "2xl" }} textAlign="center">
             {t("news.title")}
           </Heading>
@@ -140,8 +140,8 @@ export default function NewsSection() {
                   key={feed.label}
                   value={feed.label}
                   colorScheme="blue"
-                  size="lg" // Larger size for mobile
-                  sx={{ "& .chakra-checkbox__control": { borderWidth: "2px" } }} // Thicker border for contrast
+                  size="lg"
+                  sx={{ "& .chakra-checkbox__control": { borderWidth: "2px" } }}
                 >
                   <Text fontSize={{ base: "md", md: "lg" }} color="white">
                     {t(`news.${feed.label.toLowerCase()}`)}
@@ -169,11 +169,10 @@ export default function NewsSection() {
                           key={index}
                           bg="gray.800"
                           borderRadius="lg"
-                          position="relative"
                           boxShadow="lg"
                           overflow="hidden"
                           _hover={{
-                            transform: "scale(1.03)", 
+                            transform: `rotate(${feedIndex % 2 === 0 ? index * 2 : -index * 2}deg) scale(1.03)`,
                             boxShadow: "xl",
                             bg: "gray.700",
                           }}
@@ -181,16 +180,17 @@ export default function NewsSection() {
                           initial="hidden"
                           animate={isInView ? "visible" : "hidden"}
                           custom={index + feedIndex * 3}
+                          position="relative"
                         >
                           <Link href={post.link} isExternal _hover={{ textDecoration: "none" }}>
                             <Image
                               src={post.thumbnail}
                               alt={post.title}
-                              h={{ base: "150px", md: "200px" }} // Smaller height on mobile
+                              h={{ base: "150px", md: "200px" }}
                               w="full"
                               objectFit="cover"
                               borderTopRadius="lg"
-                              fallbackSrc="/potluck.png"
+                              fallbackSrc="/potluck.png" // Reverted to original fallbackSrc
                             />
                             <Box p={{ base: 4, md: 5 }}>
                               <Heading
@@ -215,11 +215,11 @@ export default function NewsSection() {
                                   {post.date}
                                 </Text>
                                 <Button
-                                  size={{ base: "xs", md: "sm" }} // Smaller button on mobile
+                                  size={{ base: "xs", md: "sm" }}
                                   colorScheme="blue"
                                   variant="outline"
                                   _hover={{ bg: "blue.600", color: "white" }}
-                                  px={{ base: 4, md: 6 }} // Larger padding for touch target
+                                  px={{ base: 4, md: 6 }}
                                 >
                                   {t("news.readMore")}
                                 </Button>
