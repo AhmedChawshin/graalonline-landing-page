@@ -257,7 +257,6 @@ export default function Download() {
     return (
     <MotionBox
       minH="100vh"
-      bg="#171923"
       color="white"
       px={{ base: 4, md: 8 }}
       py={12}
@@ -289,11 +288,8 @@ export default function Download() {
               <AccordionItem key={index} border="none" mb={2}>
                 <AccordionButton
                   bg="gray.900"
-                  backgroundImage="linear-gradient(to bottom right, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.1))"
                   _hover={{
                     bg: "gray.800",
-                    transform: "translateY(-2px)",
-                    boxShadow: "0 6px 14px rgba(0, 0, 0, 0.3)",
                   }}
                   borderRadius="md"
                   p={4}
