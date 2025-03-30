@@ -72,10 +72,12 @@ export default function NewsSection() {
             throw new Error(`Failed to fetch posts for ${feed.label}`);
           }
 
-          const formattedPosts = data.items.slice(0, 3).map((item) => ({
+          const formattedPosts = data.items.slice(0, 3).map((item) => (
+            {
             title: item.title.replace(/\\u[\dA-F]{4}/gi, (match) =>
               String.fromCharCode(parseInt(match.substr(2), 16))
             ),
+            
             description: item.description
               .replace(/<[^>]+>/g, "")
               .replace(/\\n/g, " ")
@@ -87,7 +89,9 @@ export default function NewsSection() {
               year: "numeric",
             }),
             thumbnail: item.thumbnail || item.enclosure?.link || "/potluck.png", // Your original thumbnail logic
-          }));
+          }
+        )
+      );
 
           feedData[feed.label] = formattedPosts;
         }
