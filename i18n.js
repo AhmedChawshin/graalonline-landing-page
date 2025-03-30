@@ -9,7 +9,7 @@ const resources = {
       header: {
         support: 'Support',
         download: 'Download',
-        signupLogin: 'Signup/Login',
+        signupLogin: 'Sign-up/Login',
         language: 'Language',
         upload: 'Upload'
       },

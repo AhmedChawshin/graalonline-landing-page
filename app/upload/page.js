@@ -164,8 +164,20 @@ export default function Upload() {
   };
 
   const renderGameSelection = () => (
-    <MotionBox initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: "easeOut" }}>
-      <Heading as="h1" size="xl" textAlign="center" color="white" fontWeight="bold" mb={10} textShadow="0 2px 4px rgba(0, 0, 0, 0.2)">
+    <MotionBox
+      initial={{ opacity: 0, y: 50, scale: 0.8 }} // Start slightly smaller and lower
+      animate={{ opacity: 1, y: 0, scale: 1 }} // Scale up to full size and move into place
+      transition={{ duration: 0.7, ease: "easeOut" }} // Smooth transition
+    >
+      <Heading
+        as="h1"
+        size="xl"
+        textAlign="center"
+        color="white"
+        fontWeight="bold"
+        mb={10}
+        textShadow="0 2px 4px rgba(0, 0, 0, 0.2)"
+      >
         {t("upload.selectGame", { defaultValue: "Select a Game to Upload" })}
       </Heading>
       <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6} maxW="700px" mx="auto">
@@ -184,8 +196,17 @@ export default function Upload() {
             flexDirection="column"
             alignItems="center"
             justifyContent="center"
-            _hover={{ borderColor: "brand.400", bg: "gray.700", transform: "translateY(-2px)", boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)" }}
-            transition="all 0.3s ease"
+            initial={{ scale: 0.9, y: 30 }} // Buttons start smaller and lower
+            animate={{ scale: 1, y: 0 }} // Buttons "pop" forward
+            transition={{ duration: 0.5, ease: "easeOut", delay: 0.1 * games.indexOf(game) }} // Staggered effect
+            _hover={{
+              borderColor: "brand.400",
+              bg: "gray.700",
+              transform: "translateY(-2px) scale(1.05)", // Slight zoom on hover
+              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
+            }}
+            whileHover={{ scale: 1.07 }} // Framer Motion hover animation
+            whileTap={{ scale: 0.95 }} // Slight shrink on click
           >
             <Image src={game.icon} boxSize="50px" mb={3} draggable="false" />
             <Text fontSize="lg" fontWeight="medium">{game.label}</Text>
