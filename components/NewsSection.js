@@ -36,9 +36,9 @@ const cardVariants = {
     y: 0,
     scale: 1,
     transition: {
-      duration: 0.5, // Reduced duration for faster render
-      ease: "easeOut", // Simpler easing for mobile
-      delay: index * 0.1, // Reduced delay
+      duration: 2,
+      ease: [0.6, -0.05, 0.01, 0.99],
+      delay: index * 0.15,
     },
   }),
 };
@@ -54,7 +54,7 @@ export default function NewsSection() {
   });
 
   const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" }); // Reduced margin for earlier trigger
+  const isInView = useInView(sectionRef, { once: true, margin: "-300px" });
 
   useEffect(() => {
     const fetchRSS = async () => {
@@ -64,8 +64,7 @@ export default function NewsSection() {
 
         for (const feed of RSS_FEEDS) {
           const response = await fetch(
-            `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`,
-            { cache: "no-store" } // Prevent caching issues on mobile
+            `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`
           );
           const data = await response.json();
 
@@ -76,17 +75,17 @@ export default function NewsSection() {
           const formattedPosts = data.items.slice(0, 3).map((item) => ({
             title: item.title.replace(/\\u[\dA-F]{4}/gi, (match) =>
               String.fromCharCode(parseInt(match.substr(2), 16))
-            ) || "Untitled", // Fallback for empty titles
+            ),
             description: item.description
               .replace(/<[^>]+>/g, "")
               .replace(/\\n/g, " ")
-              .trim() || "No description available", // Fallback for empty descriptions
+              .trim(),
             link: item.link,
             date: new Date(item.pubDate).toLocaleDateString("en-US", {
               month: "short",
               day: "numeric",
               year: "numeric",
-            }) || "Unknown date", // Fallback for invalid dates
+            }),
             thumbnail: item.thumbnail || item.enclosure?.link || "/potluck.png",
           }));
 
@@ -95,7 +94,7 @@ export default function NewsSection() {
 
         setFeeds(feedData);
       } catch (err) {
-        setError(t("news.error") || "Failed to load news");
+        setError(t("news.error"));
         console.error(err);
       } finally {
         setLoading(false);
@@ -121,7 +120,7 @@ export default function NewsSection() {
         position="relative" // Ensure stacking context
         overflow="visible" // Prevent clipping
       >
-        <VStack spacing={12} maxW="1400px" mx="auto">
+      <VStack spacing={12} maxW="1400px" mx="auto">
           <Heading as="h1" size={{ base: "xl", md: "2xl" }} textAlign="center">
             {t("news.title")}
           </Heading>
@@ -140,8 +139,8 @@ export default function NewsSection() {
                   key={feed.label}
                   value={feed.label}
                   colorScheme="blue"
-                  size="lg"
-                  sx={{ "& .chakra-checkbox__control": { borderWidth: "2px" } }}
+                  size="lg" // Larger size for mobile
+                  sx={{ "& .chakra-checkbox__control": { borderWidth: "2px" } }} // Thicker border for contrast
                 >
                   <Text fontSize={{ base: "md", md: "lg" }} color="white">
                     {t(`news.${feed.label.toLowerCase()}`)}
@@ -169,10 +168,11 @@ export default function NewsSection() {
                           key={index}
                           bg="gray.800"
                           borderRadius="lg"
+                          position="relative"
                           boxShadow="lg"
                           overflow="hidden"
                           _hover={{
-                            transform: "scale(1.03)", // Simplified hover transform
+                            transform: `rotate(${feedIndex % 2 === 0 ? index * 2 : -index * 2}deg) scale(1.03)`,
                             boxShadow: "xl",
                             bg: "gray.700",
                           }}
@@ -180,18 +180,16 @@ export default function NewsSection() {
                           initial="hidden"
                           animate={isInView ? "visible" : "hidden"}
                           custom={index + feedIndex * 3}
-                          position="relative" // Ensure content stays visible
                         >
                           <Link href={post.link} isExternal _hover={{ textDecoration: "none" }}>
                             <Image
                               src={post.thumbnail}
                               alt={post.title}
-                              h={{ base: "150px", md: "200px" }}
+                              h={{ base: "150px", md: "200px" }} // Smaller height on mobile
                               w="full"
                               objectFit="cover"
                               borderTopRadius="lg"
                               fallbackSrc="/potluck.png"
-                              onError={(e) => (e.target.src = "/potluck.png")} // Force fallback on error
                             />
                             <Box p={{ base: 4, md: 5 }}>
                               <Heading
@@ -216,11 +214,11 @@ export default function NewsSection() {
                                   {post.date}
                                 </Text>
                                 <Button
-                                  size={{ base: "xs", md: "sm" }}
+                                  size={{ base: "xs", md: "sm" }} // Smaller button on mobile
                                   colorScheme="blue"
                                   variant="outline"
                                   _hover={{ bg: "blue.600", color: "white" }}
-                                  px={{ base: 4, md: 6 }}
+                                  px={{ base: 4, md: 6 }} // Larger padding for touch target
                                 >
                                   {t("news.readMore")}
                                 </Button>
