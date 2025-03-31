@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 
-const MotionHeading = motion(Heading);
+const MotionHeading = motion.create(Heading);
 
 export default function GraalOnlineRules() {
  

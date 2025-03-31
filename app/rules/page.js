@@ -1,37 +1,46 @@
-"use client";
+// pages/rules.js
+import Rules from './RulesClient'; 
 
-import {
-  Box,
-} from "@chakra-ui/react";
-import { motion } from "framer-motion";
-import GraalOnlineEraRules from "../../components/rules/GraalOnlineEra"
-import GraalOnlineRules from "../../components/rules/GraalOnline"
-import GraalOnlineClassicRules from "../../components/rules/GraalOnlineClassic"
-import GraalOnlineZoneRules from "../../components/rules/GraalOnlineZone"
-import GraalOnlineOlwestRules from "../../components/rules/GraalOnlineOlwest"
-import PlayerworldsRules from "../../components/rules/Playerworlds"
+// Metadata for SEO optimized for Rules content
+export const metadata = {
+  title: "GraalOnline - Rules",
+  description:
+    "Read the official rules of GraalOnline. Learn about player conduct, prohibited actions, and community guidelines to ensure a fair and enjoyable experience.",
+  keywords: "GraalOnline rules, MMORPG rules, GraalOnline conduct, game guidelines, GraalOnline community standards",
+  openGraph: {
+    type: "website",
+    url: "https://www.graalonline.com/rules", 
+    title: "GraalOnline - Official Rules",
+    description:
+      "Review the official rules of GraalOnline, including player conduct, prohibited actions, and guidelines for a fair and enjoyable game experience.",
+    images: [
+      {
+        url: "https://i.imgur.com/eAerGWX.png",
+        width: 1200,
+        height: 630,
+        alt: "GraalOnline Rules",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    url: "https://www.graalonline.com/rules",
+    title: "GraalOnline - Official Rules",
+    description:
+      "Stay informed about GraalOnline's rules and community guidelines. Ensure fair play and respect for all players.",
+    image: "https://i.imgur.com/eAerGWX.png",
+  }
+};
 
-const MotionBox = motion(Box);
+// Viewport metadata
+export const viewport = {
+  themeColor: "#57cbf8",
+};
 
-export default function Rules() {
-    return (
-    <MotionBox
-      minH="100vh"
-      color="white"
-      px={{ base: 4, md: 8 }}
-      py={12}
-      position="relative"
-      overflow="hidden"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
-      <GraalOnlineRules />
-      <GraalOnlineEraRules />
-      <GraalOnlineClassicRules />
-      <GraalOnlineOlwestRules />
-      <GraalOnlineZoneRules />
-      <PlayerworldsRules />
-    </MotionBox>
+export default function RulesPage() {
+  return (
+    <>
+      <Rules />
+    </>
   );
 }

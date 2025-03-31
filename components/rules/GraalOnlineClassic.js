@@ -17,8 +17,8 @@ import {
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 
-const MotionBox = motion(Box);
-const MotionHeading = motion(Heading);
+const MotionBox = motion.create(Box);
+const MotionHeading = motion.create(Heading);
 
 export default function GraalOnlineClassicRules() {
   const rulesPages = [

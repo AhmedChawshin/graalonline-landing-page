@@ -18,7 +18,7 @@ import {
 import { motion, useInView } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
-const MotionBox = motion(Box);
+const MotionBox = motion.create(Box);
 
 // RSS feeds with game labels
 const RSS_FEEDS = [
