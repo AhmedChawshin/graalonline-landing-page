@@ -81,6 +81,7 @@ export default function Upload() {
       data.append("type2", formData.type);
       data.append("guild", formData.guild || "");
       data.append("file", formData.file);
+      data.append("transed", formData.transed ? "on" : "off");
       data.append("submit", uploadPrices[selectedGame]?.[formData.type] || "Upload");
       // Add personalupload for Era's shield and sword
       if (selectedGame === "era" && (formData.type === "shield" || formData.type === "sword")) {
