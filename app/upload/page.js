@@ -35,7 +35,7 @@ export default function Upload() {
   const games = [
     { value: "era", label: t("discover.games.graalEra.title", { defaultValue: "GraalOnline Era" }), endpoint: "https://eraupload.graalonline.com/upload-new.gs", icon: "/era.avif" },
     { value: "olwest", label: t("discover.games.graalOlwest.title", { defaultValue: "GraalOnline Ol'West" }), endpoint: "http://loginolwest1.graalonline.com:8080/upload.gs", icon: "/olwest.avif" },
-    { value: "classic", label: t("discover.games.graalonlineClassic.title", { defaultValue: "GraalOnline Classic" }), endpoint: "https://classicupload.graalonline.com/upload.gs", icon: "/classic.avif" },
+    { value: "classic", label: t("discover.games.graalonlineClassic.title", { defaultValue: "GraalOnline Classic" }), endpoint: "https://classicupload.graalonline.com/upload.gs", icon: "/classic.png" },
     { value: "zone", label: "GraalOnline Zone", endpoint: "./upload.gs", icon: "/zone.avif" },
   ];
 

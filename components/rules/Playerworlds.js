@@ -145,7 +145,7 @@ export default function GraalOnlinePlayerWorldsRules() {
         >
         <MotionBox
             as="img"
-            src="/classic.avif"
+            src="/playerworlds.avif"
             alt="Ol'West Icon"
             dragable="false"
             width="30px"
