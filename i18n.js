@@ -11,7 +11,7 @@ const resources = {
         download: 'Download',
         signupLogin: 'Sign-up/Login',
         language: 'Language',
-        upload: 'Upload'
+        upload: 'Upload Customs'
       },
       hero: {
         title: 'Graal Online',
