@@ -28,7 +28,7 @@ const RSS_FEEDS = [
   { url: "https://fetchrss.com/rss/67dc10f911087c9f2e07117267dc11766f3966b055048784.rss", label: "Zone" },
 ];
 
-// Animation variants for a cooler effect
+
 const cardVariants = {
   hidden: { opacity: 0, y: 50, scale: 0.9 },
   visible: (index) => ({
@@ -36,7 +36,7 @@ const cardVariants = {
     y: 0,
     scale: 1,
     transition: {
-      duration: 0.5, // Faster for mobile compatibility
+      duration: 0.5, 
       ease: "easeOut",
       delay: index * 0.1,
     },
@@ -54,7 +54,7 @@ export default function NewsSection() {
   });
 
   const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" }); // Adjusted for earlier trigger
+  const isInView = useInView(sectionRef, { once: true, margin: "-100px" }); 
 
   useEffect(() => {
     const fetchRSS = async () => {
@@ -88,7 +88,7 @@ export default function NewsSection() {
               day: "numeric",
               year: "numeric",
             }),
-            thumbnail: item.thumbnail || item.enclosure?.link || "/potluck.png", // Your original thumbnail logic
+            thumbnail: item.thumbnail || item.enclosure?.link || "/potluck.png", 
           }
         )
       );
@@ -175,7 +175,7 @@ export default function NewsSection() {
                           boxShadow="lg"
                           overflow="hidden"
                           _hover={{
-                            transform: "scale(1.03)", // Simplified hover for mobile
+                            transform: "scale(1.03)", 
                             boxShadow: "xl",
                             bg: "gray.700",
                           }}
@@ -193,7 +193,7 @@ export default function NewsSection() {
                               w="full"
                               objectFit="cover"
                               borderTopRadius="lg"
-                              fallbackSrc="/potluck.png" // Your original working fallback
+                              fallbackSrc="/potluck.png" 
                             />
                             <Box p={{ base: 4, md: 5 }}>
                               <Heading
