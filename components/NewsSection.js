@@ -22,10 +22,10 @@ const MotionBox = motion.create(Box);
 
 // RSS feeds with game labels
 const RSS_FEEDS = [
-  { url: "https://fetchrss.com/rss/67dc10f911087c9f2e07117267dc114fafd4cc2f7b0eb142.rss", label: "Era" },
-  { url: "https://fetchrss.com/rss/67dc10f911087c9f2e07117267dc10e01c3dd50d360f3a43.rss", label: "Classic" },
-  { url: "https://fetchrss.com/rss/67dc10f911087c9f2e07117267dc118abf187c22500e1c42.rss", label: "Ol'West" },
-  { url: "https://fetchrss.com/rss/67dc10f911087c9f2e07117267dc11766f3966b055048784.rss", label: "Zone" },
+  { url: "https://fetchrss.com/rss/68440db135275ff26a0fe16268440e08a8b0a6aaac07a1d2.rss", label: "Era" },
+  { url: "https://fetchrss.com/rss/68440db135275ff26a0fe16268440e08a8b0a6aaac07a1d2.rss", label: "Classic" },
+  { url: "https://fetchrss.com/rss/68440db135275ff26a0fe16268440e5c87187b39b00eae93.rss", label: "Ol'West" },
+  { url: "https://fetchrss.com/rss/68440db135275ff26a0fe16268440e783be52f452b091c12.rss", label: "Zone" },
 ];
 
 
