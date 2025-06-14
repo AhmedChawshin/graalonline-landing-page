@@ -1,4 +1,3 @@
-
 "use client";
 
 import {
@@ -24,7 +23,16 @@ import {
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { FaNetworkWired, FaMapMarkerAlt, FaClock, FaShieldAlt, FaCheckCircle, FaTimesCircle, FaExclamationTriangle } from "react-icons/fa";
+import {
+  FaNetworkWired,
+  FaMapMarkerAlt,
+  FaClock,
+  FaShieldAlt,
+  FaCheckCircle,
+  FaTimesCircle,
+  FaExclamationTriangle,
+} from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 const mockGeolocationData = {
   ip: "192.168.1.1",
@@ -36,6 +44,8 @@ const mockGeolocationData = {
 const MotionBox = motion(Box);
 
 export default function AuthenticateClient() {
+  const { t } = useTranslation();
+
   const [authStatus, setAuthStatus] = useState("pending");
   const [geoData, setGeoData] = useState(mockGeolocationData);
   const [secretId, setSecretId] = useState(null);
@@ -66,7 +76,7 @@ export default function AuthenticateClient() {
     setAuthStatus("confirmed");
     setIsConfirmOpen(false);
     toast({
-      title: "Authentication Confirmed",
+      title: t("authenticate.authConfirmed"),
       status: "success",
       duration: 3000,
       isClosable: true,
@@ -77,7 +87,7 @@ export default function AuthenticateClient() {
   const handleDeny = () => {
     setAuthStatus("denied");
     toast({
-      title: "Authentication Denied",
+      title: t("authenticate.authDenied"),
       status: "error",
       duration: 3000,
       isClosable: true,
@@ -104,10 +114,10 @@ export default function AuthenticateClient() {
         >
           <Icon as={FaTimesCircle} boxSize={8} color="red.400" mb={3} />
           <Heading size="md" mb={2} color={textColor}>
-            Invalid Request
+            {t("authenticate.invalidRequest")}
           </Heading>
           <Text fontSize="sm" color={subtleTextColor}>
-            Please verify your link or contact support.
+            {t("authenticate.invalidRequestDescription")}
           </Text>
         </MotionBox>
       </Center>
@@ -133,10 +143,10 @@ export default function AuthenticateClient() {
           <VStack spacing={1}>
             <Icon as={FaShieldAlt} boxSize={6} color="blue.400" />
             <Heading as="h1" size="md" color={textColor}>
-              Authenticate Device
+              {t("authenticate.authDevice")}
             </Heading>
             <Text fontSize="sm" color={subtleTextColor}>
-              Verify this login attempt
+              {t("authenticate.verifyLoginAttempt")}
             </Text>
           </VStack>
 
@@ -150,9 +160,13 @@ export default function AuthenticateClient() {
             borderWidth="1px"
             borderColor="yellow.700"
           >
-            <AlertIcon as={FaExclamationTriangle} boxSize={5} color={warningText} />
+            <AlertIcon
+              as={FaExclamationTriangle}
+              boxSize={5}
+              color={warningText}
+            />
             <AlertDescription fontWeight="medium">
-              Beware of scams! Only approve if you trust this device and location.
+              {t("authenticate.securityWarningMessage")}
             </AlertDescription>
           </Alert>
 
@@ -160,27 +174,36 @@ export default function AuthenticateClient() {
             <VStack spacing={2} fontSize="sm" align="stretch">
               <Flex align="center" gap={2}>
                 <Icon as={FaNetworkWired} color={subtleTextColor} boxSize={4} />
-                <Text color={subtleTextColor}>IP</Text>
-                <Text color={textColor} fontWeight="medium" ml="auto">{geoData.ip}</Text>
+                <Text color={subtleTextColor}>{t("authenticate.ip")}</Text>
+                <Text color={textColor} fontWeight="medium" ml="auto">
+                  {geoData.ip}
+                </Text>
               </Flex>
               <Flex align="center" gap={2}>
                 <Icon as={FaMapMarkerAlt} color={subtleTextColor} boxSize={4} />
-                <Text color={subtleTextColor}>Location</Text>
+                <Text color={subtleTextColor}>{t("authenticate.location")}</Text>
                 <Text color={textColor} fontWeight="medium" ml="auto">
                   {geoData.city}, {geoData.region}
                 </Text>
               </Flex>
               <Flex align="center" gap={2}>
                 <Icon as={FaClock} color={subtleTextColor} boxSize={4} />
-                <Text color={subtleTextColor}>Time</Text>
+                <Text color={subtleTextColor}>{t("authenticate.time")}</Text>
                 <Text color={textColor} fontWeight="medium" ml="auto">
                   {new Date().toLocaleString()}
                 </Text>
               </Flex>
               <Flex align="center" gap={2}>
                 <Icon as={FaShieldAlt} color={subtleTextColor} boxSize={4} />
-                <Text color={subtleTextColor}>Device ID</Text>
-                <Text color={textColor} fontWeight="medium" fontFamily="mono" fontSize="xs" ml="auto" wordBreak="break-all">
+                <Text color={subtleTextColor}>{t("authenticate.deviceId")}</Text>
+                <Text
+                  color={textColor}
+                  fontWeight="medium"
+                  fontFamily="mono"
+                  fontSize="xs"
+                  ml="auto"
+                  wordBreak="break-all"
+                >
                   {secretId}
                 </Text>
               </Flex>
@@ -196,7 +219,7 @@ export default function AuthenticateClient() {
                 colorScheme="red"
                 leftIcon={<FaTimesCircle />}
               >
-                Deny
+                {t("authenticate.deny")}
               </Button>
               <Button
                 flex={1}
@@ -204,7 +227,7 @@ export default function AuthenticateClient() {
                 colorScheme="blue"
                 leftIcon={<FaCheckCircle />}
               >
-                Confirm
+                {t("authenticate.confirm")}
               </Button>
             </Flex>
           ) : (
@@ -214,35 +237,40 @@ export default function AuthenticateClient() {
               bg={authStatus === "confirmed" ? successBg : errorBg}
               color={authStatus === "confirmed" ? successText : errorText}
             >
-              <Icon as={authStatus === "confirmed" ? FaCheckCircle : FaTimesCircle} mr={2} />
+              <Icon
+                as={authStatus === "confirmed" ? FaCheckCircle : FaTimesCircle}
+                mr={2}
+              />
               <Text fontWeight="medium">
-                {authStatus === "confirmed" ? "Confirmed" : "Denied"}
+                {authStatus === "confirmed"
+                  ? t("authenticate.authConfirmed")
+                  : t("authenticate.authDenied")}
               </Text>
             </Center>
           )}
         </VStack>
       </MotionBox>
 
-      <Modal isOpen={isConfirmOpen} onClose={() => setIsConfirmOpen(false)} size="sm">
+      <Modal
+        isOpen={isConfirmOpen}
+        onClose={() => setIsConfirmOpen(false)}
+        size="sm"
+      >
         <ModalOverlay />
         <ModalContent borderRadius="lg" bg={cardBg} mx={4}>
           <ModalHeader fontSize="md" color={textColor}>
-            Confirm Authentication
+            {t("authenticate.confirmAuthentication")}
           </ModalHeader>
           <ModalCloseButton color={subtleTextColor} />
           <ModalBody>
             <Text fontSize="sm" color={subtleTextColor}>
-              Are you sure this is your device? Approving grants account access.
+              {t("authenticate.confirmPrompt")}
             </Text>
           </ModalBody>
           <ModalFooter>
             <Flex gap={2} w="full">
-              <Button
-                variant="outline"
-                flex={1}
-                onClick={() => setIsConfirmOpen(false)}
-              >
-                Cancel
+              <Button variant="outline" flex={1} onClick={() => setIsConfirmOpen(false)}>
+                {t("authenticate.cancel")}
               </Button>
               <Button
                 flex={1}
@@ -250,7 +278,7 @@ export default function AuthenticateClient() {
                 colorScheme="blue"
                 leftIcon={<FaCheckCircle />}
               >
-                Confirm
+                {t("authenticate.confirm")}
               </Button>
             </Flex>
           </ModalFooter>
