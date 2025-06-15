@@ -22,7 +22,7 @@ const MotionBox = motion.create(Box);
 
 // RSS feeds with game labels
 const RSS_FEEDS = [
-  { url: "https://fetchrss.com/rss/68440db135275ff26a0fe16268440e08a8b0a6aaac07a1d2.rss", label: "Era" },
+  { url: "https://fetchrss.com/rss/68440db135275ff26a0fe162684eca5325acf1a909026ec2.rss", label: "Era" },
   { url: "https://fetchrss.com/rss/68440db135275ff26a0fe16268440e08a8b0a6aaac07a1d2.rss", label: "Classic" },
   { url: "https://fetchrss.com/rss/68440db135275ff26a0fe16268440e5c87187b39b00eae93.rss", label: "Ol'West" },
   { url: "https://fetchrss.com/rss/68440db135275ff26a0fe16268440e783be52f452b091c12.rss", label: "Zone" },
