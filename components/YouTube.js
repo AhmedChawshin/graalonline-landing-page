@@ -19,7 +19,6 @@ import axios from "axios";
 const MotionBox = motion(Box);
 
 const CHANNEL_ID = "UCgepWt075N5ObYPHNy_Ic2w";
-const API_KEY = "AIzaSyBV85_Mqszz3ZGDTvrcG-ErUURRRcRfffo"; // Use env var in production
 
 const cardVariants = {
   hidden: { opacity: 0, y: 50, scale: 0.9 },
@@ -47,16 +46,8 @@ export default function NewsSection() {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const res = await axios.get(
-          `https://www.googleapis.com/youtube/v3/search?key=${API_KEY}&channelId=${CHANNEL_ID}&part=snippet,id&order=date&maxResults=6&type=video`
-        );
-        const items = res.data.items.map((item) => ({
-          id: item.id.videoId,
-          title: item.snippet.title,
-          thumbnail: item.snippet.thumbnails.high.url,
-          url: `https://www.youtube.com/watch?v=${item.id.videoId}`,
-        }));
-        setVideos(items);
+        const res = await axios.get("/api/youtube-feed");
+        setVideos(res.data);
       } catch (err) {
         console.error("Failed to fetch YouTube videos:", err);
         setError(t("youtube.error"));
@@ -81,7 +72,6 @@ export default function NewsSection() {
         ref={sectionRef}
         position="relative"
         borderTop="2px solid white"
-
       >
         <VStack spacing={12} maxW="1400px" mx="auto">
           <Heading as="h1" size={{ base: "xl", md: "2xl" }} textAlign="center">
@@ -107,31 +97,31 @@ export default function NewsSection() {
                   custom={index}
                 >
                   <Link href={video.url} isExternal _hover={{ textDecoration: "none" }}>
-                    <Box position="relative" w="full" pt="56.25%"> 
-                <Image
-                    src={video.thumbnail}
-                    alt={video.title}
-                    objectFit="cover"
-                    position="absolute"
-                    top={0}
-                    left={0}
-                    width="100%"
-                    height="100%"
-                />
-                <Box
-                    position="absolute"
-                    inset={0}
-                    bg="blackAlpha.400"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                    opacity={0}
-                    _hover={{ opacity: 1 }}
-                    transition="opacity 0.2s ease"
-                >
-                    <FaPlay size={32} color="white" />
-                </Box>
-                </Box>
+                    <Box position="relative" w="full" pt="56.25%">
+                      <Image
+                        src={video.thumbnail}
+                        alt={video.title}
+                        objectFit="cover"
+                        position="absolute"
+                        top={0}
+                        left={0}
+                        width="100%"
+                        height="100%"
+                      />
+                      <Box
+                        position="absolute"
+                        inset={0}
+                        bg="blackAlpha.400"
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        opacity={0}
+                        _hover={{ opacity: 1 }}
+                        transition="opacity 0.2s ease"
+                      >
+                        <FaPlay size={32} color="white" />
+                      </Box>
+                    </Box>
                     <Box p={5}>
                       <Heading as="h3" size="sm" mb={3} noOfLines={2}>
                         {video.title}
