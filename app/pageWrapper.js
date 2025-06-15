@@ -4,6 +4,7 @@ import { Box, VStack } from "@chakra-ui/react";
 import Hero from "../components/Hero";
 import Discover from "../components/Discover";
 import NewsSection from "../components/NewsSection";
+import YouTube from "../components/YouTube";
 
 export default function Home() {
   return (
@@ -18,6 +19,9 @@ export default function Home() {
           </Box>
           <Box id="news" minH="100vh">
             <NewsSection />
+          </Box>
+          <Box id="youtube" minH="100vh">
+            <YouTube />
           </Box>
         </VStack>
       </Box>

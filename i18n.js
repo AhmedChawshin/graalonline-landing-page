@@ -60,6 +60,13 @@ const resources = {
         noPosts: 'No posts available at the moment.',
         selectFeed: 'Please select a feed to view news.',
       },
+      youtube: {
+        "title": "Latest Videos from Toonslab",
+        "loading": "Loading latest videos...",
+        "error": "Unable to load videos. Please try again later.",
+        "watch": "Watch on YouTube",
+        "viewChannel": "Visit Toonslab YouTube Channel"
+      },
       upload: {
         title: 'Upload Custom Graphics',
         selectGame: 'Select a Game',
@@ -211,13 +218,20 @@ const resources = {
         title: 'Noticias de Graalonline',
         era: 'Era',
         classic: 'Classic',
-        "ol'west": "Ol'West", // Standardized key
+        "ol'west": "Ol'West", 
         zone: 'Zone',
         readMore: 'Leer Más',
         loading: 'Cargando publicaciones...',
         error: 'No se pudieron cargar algunas publicaciones. Por favor, intenta de nuevo más tarde.',
         noPosts: 'No hay publicaciones disponibles en este momento.',
         selectFeed: 'Por favor, selecciona un feed para ver noticias.', // Added missing key
+      },
+      youtube: {
+        "title": "Últimos videos de Toonslab",
+        "loading": "Cargando los últimos videos...",
+        "error": "No se pueden cargar los videos. Por favor, inténtalo de nuevo más tarde.",
+        "watch": "Ver en YouTube",
+        "viewChannel": "Visitar el canal de YouTube de Toonslab"
       },
       upload: {
         title: 'Subir Gráficos Personalizados',
@@ -376,6 +390,13 @@ const resources = {
         error: 'Échec du chargement de certaines publications. Veuillez réessayer plus tard.',
         noPosts: 'Aucune publication disponible pour le moment.',
         selectFeed: 'Veuillez sélectionner un flux pour voir les actualités.', // Added missing key
+      },
+      youtube: {
+        "title": "Dernières vidéos de Toonslab",
+        "loading": "Chargement des dernières vidéos...",
+        "error": "Impossible de charger les vidéos. Veuillez réessayer plus tard.",
+        "watch": "Regarder sur YouTube",
+        "viewChannel": "Visiter la chaîne YouTube de Toonslab"
       },
       upload: {
         title: 'Télécharger des Graphiques Personnalisés',
