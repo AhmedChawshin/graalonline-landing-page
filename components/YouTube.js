@@ -80,6 +80,8 @@ export default function NewsSection() {
         minH="100vh"
         ref={sectionRef}
         position="relative"
+        borderTop="2px solid white"
+
       >
         <VStack spacing={12} maxW="1400px" mx="auto">
           <Heading as="h1" size={{ base: "xl", md: "2xl" }} textAlign="center">
